@@ -19,6 +19,7 @@ const Register = () => {
   const [photo, setPhoto] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -43,28 +44,32 @@ const Register = () => {
         photoURL: photo,
       });
 
-      // ✅ Show toast first
-      toast.success("Successfully Registered!");
-
-      // ✅ Delay navigation so user can see the toast
+      toast.success("Successfully Registered! Please login.");
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 1000);
     } catch (err) {
       toast.error(err.message);
     }
   };
 
+  // ✅ Updated Google Register
   const handleGoogleRegister = async () => {
+    if (loading) return;
+    setLoading(true);
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
       toast.success("Google Registration Successful!");
       setTimeout(() => {
-        navigate("/");
+        navigate("/"); // ✅ এখন Register করলে সরাসরি Home Page এ যাবে
       }, 1000);
     } catch (err) {
-      toast.error(err.message);
+      if (err.code !== "auth/cancelled-popup-request") {
+        toast.error(err.message);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,19 +124,7 @@ const Register = () => {
             </span>
           </div>
 
-          {/* ✅ Toast container above the button */}
-          <ToastContainer
-            position="top-center"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-          />
+          <ToastContainer position="top-right" autoClose={3000} theme="colored" />
 
           <Link to="/login" className="text-blue-600 text-sm font-medium">
             Already have an account? Login
@@ -151,8 +144,13 @@ const Register = () => {
 
           <button
             onClick={handleGoogleRegister}
-            className="w-full flex items-center justify-center gap-3 border border-gray-300 bg-white py-3
-                       rounded-full transition-all duration-200 hover:bg-gray-100 hover:shadow-md hover:scale-[1.02]"
+            disabled={loading}
+            className={`w-full flex items-center justify-center gap-3 border border-gray-300 bg-white py-3
+                       rounded-full transition-all duration-200 ${
+                         loading
+                           ? "opacity-60 cursor-not-allowed"
+                           : "hover:bg-gray-100 hover:shadow-md hover:scale-[1.02]"
+                       }`}
           >
             <img
               src="https://www.gstatic.com/images/branding/product/1x/gsa_64dp.png"
@@ -160,7 +158,7 @@ const Register = () => {
               className="w-5"
             />
             <span className="text-gray-700 font-medium">
-              Continue with Google
+              {loading ? "Please wait..." : "Continue with Google"}
             </span>
           </button>
         </div>
