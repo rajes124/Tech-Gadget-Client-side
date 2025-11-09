@@ -8,6 +8,7 @@ import Register from "./Pages/Register.jsx";
 import MyExports from "./Pages/MyExports.jsx";
 import MyImports from "./Pages/MyImports.jsx";
 import AddExport from "./Pages/AddExport.jsx";
+import Profile from "./Pages/Profile.jsx"; // ✅ Profile page import
 import PrivateRoute from "./components/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
@@ -48,6 +49,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddExport />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/profile", // ✅ New Profile route
+        element: (
+          <PrivateRoute>
+            <Profile />
           </PrivateRoute>
         ),
       },
