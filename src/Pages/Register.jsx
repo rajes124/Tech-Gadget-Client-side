@@ -21,6 +21,7 @@ const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // ✅ Email-Password Register Function
   const handleRegister = async (e) => {
     e.preventDefault();
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
@@ -44,6 +45,28 @@ const Register = () => {
         photoURL: photo,
       });
 
+      // ✅ MongoDB তে নতুন user save হবে
+      const newUser = {
+        name: name,
+        email: email,
+        image: photo,
+      };
+
+      fetch("http://localhost:4000/users", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("User saved to DB:", data);
+        })
+        .catch((err) => {
+          console.error("Error saving user:", err);
+        });
+
       toast.success("Successfully Registered! Please login.");
       setTimeout(() => {
         navigate("/login");
@@ -53,16 +76,40 @@ const Register = () => {
     }
   };
 
-  // ✅ Updated Google Register
+  // ✅ Google Register Function
   const handleGoogleRegister = async () => {
     if (loading) return;
     setLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // ✅ Google user MongoDB তে save হবে
+      const newUser = {
+        name: user.displayName,
+        email: user.email,
+        image: user.photoURL,
+      };
+
+      fetch("http://localhost:4000/users", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Google user saved:", data);
+        })
+        .catch((err) => {
+          console.error("Error saving Google user:", err);
+        });
+
       toast.success("Google Registration Successful!");
       setTimeout(() => {
-        navigate("/"); // ✅ এখন Register করলে সরাসরি Home Page এ যাবে
+        navigate("/");
       }, 1000);
     } catch (err) {
       if (err.code !== "auth/cancelled-popup-request") {

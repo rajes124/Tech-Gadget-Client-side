@@ -8,71 +8,14 @@ const Home = () => {
   const [products, setProducts] = useState([]);
 
   // Demo data (will be replaced with MongoDB data later)
-  useEffect(() => {
-    const demoData = [
-      {
-        id: 1,
-        image:
-          "https://images.unsplash.com/photo-1581092334539-0a8a8d6a4903?w=800",
-        name: "Smartphone X Pro",
-        price: "$950",
-        country: "Japan",
-        rating: 4.9,
-        quantity: 25,
-      },
-      {
-        id: 2,
-        image:
-          "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800",
-        name: "Drone Camera Ultra",
-        price: "$799",
-        country: "China",
-        rating: 4.7,
-        quantity: 40,
-      },
-      {
-        id: 3,
-        image:
-          "https://images.unsplash.com/photo-1606813902916-5d1b2f95f4f6?w=800",
-        name: "Smart Laptop 15 Pro",
-        price: "$1200",
-        country: "USA",
-        rating: 4.8,
-        quantity: 10,
-      },
-      {
-        id: 4,
-        image:
-          "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800",
-        name: "Gaming Console 5",
-        price: "$650",
-        country: "Korea",
-        rating: 4.6,
-        quantity: 15,
-      },
-      {
-        id: 5,
-        image:
-          "https://images.unsplash.com/photo-1593642634367-d91a135587b5?w=800",
-        name: "Wireless Headphones",
-        price: "$120",
-        country: "Germany",
-        rating: 4.5,
-        quantity: 50,
-      },
-      {
-        id: 6,
-        image:
-          "https://images.unsplash.com/photo-1580894732444-8ecdedc071cc?w=800",
-        name: "Smart Speaker 360",
-        price: "$199",
-        country: "India",
-        rating: 4.4,
-        quantity: 35,
-      },
-    ];
-    setProducts(demoData);
-  }, []);
+
+useEffect(() => {
+  fetch("http://localhost:4000/latest-products")
+    .then((res) => res.json())
+    .then((data) => setProducts(data))
+    .catch((error) => console.error("Error fetching products:", error));
+}, []);
+
 
   return (
     <div className="w-full font-sans text-gray-700 bg-gradient-to-b from-gray-100 via-gray-50 to-white">
@@ -160,43 +103,110 @@ const Home = () => {
 </section>
 
       {/* Latest Products Section */}
-      <section className="max-w-6xl mx-auto py-20 px-6">
-        <h2 className="text-3xl font-bold text-center mb-12">
-           <span  className="text-black">Latest</span> <span className="text-blue-600">Tech Products</span>
-        </h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {products.map((p) => (
-            <motion.div
-              key={p.id}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="border rounded-3xl shadow-lg hover:shadow-2xl overflow-hidden bg-white transition-transform duration-300"
-            >
-              <div className="relative group">
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  className="h-60 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute top-3 right-3 bg-white/80 px-2 py-1 rounded-full text-sm font-semibold text-gray-800 shadow">
-                  ⭐ {p.rating}
-                </div>
+<section className="max-w-6xl mx-auto py-20 px-6">
+  <h2 className="text-3xl font-bold text-center mb-12">
+    <span className="text-black">Latest</span>{" "}
+    <span className="text-blue-600">Tech Products</span>
+  </h2>
+
+  {products.length === 0 ? (
+    <p className="text-center text-gray-500">Loading products...</p>
+  ) : (
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
+      {products.map((p) => {
+        // Flag logic based on originCountry
+        let flag = "";
+        switch ((p.originCountry || "").toLowerCase()) {
+          case "usa":
+            flag = "🇺🇸";
+            break;
+          case "germany":
+            flag = "🇩🇪";
+            break;
+          case "china":
+            flag = "🇨🇳";
+            break;
+          case "japan":
+            flag = "🇯🇵";
+            break;
+          case "south korea":
+            flag = "🇰🇷";
+            break;
+          case "india":
+            flag = "🇮🇳";
+            break;
+          case "malaysia":
+            flag = "🇲🇾";
+            break;
+          default:
+            flag = "🌐";
+        }
+
+        return (
+          <motion.div
+            key={p._id}
+            whileHover={{ scale: 1.08, y: -10 }}
+            className="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transition-transform duration-500 relative group"
+          >
+            {/* Product Image */}
+            <div className="relative overflow-hidden">
+              <img
+                src={p.image}
+                alt={p.name}
+                className="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1"
+              />
+              {/* Rating */}
+              <div className="absolute top-3 left-3 bg-yellow-400 px-3 py-1 rounded-full font-semibold text-sm shadow">
+                ⭐ {p.rating}
               </div>
-              <div className="p-5 text-left">
+            </div>
+
+            {/* Details */}
+            <div className="p-5 flex flex-col justify-between h-56">
+              <div className="mb-3">
                 <h3 className="text-xl font-semibold mb-2">{p.name}</h3>
-                <p className="text-gray-600 mb-1">Price: {p.price}</p>
-                <p className="text-gray-600 mb-1">Origin: {p.country}</p>
-                <p className="text-gray-600 mb-3">Available: {p.quantity} pcs</p>
-                <Link
-                  to={`/product/${p.id}`}
-                  className="text-blue-600 font-semibold hover:underline"
+
+                {/* Price */}
+                <p className="text-gray-800 font-semibold mb-1">
+                  Price: ${p.price}
+                </p>
+
+                {/* Origin Country + Flag */}
+                <p className="text-gray-600 mb-2 flex items-center gap-2">
+                  {flag} {p.originCountry || "Unknown"}
+                </p>
+
+                {/* Available Quantity Badge */}
+                <span
+                  className={`inline-block px-3 py-1 rounded-full font-semibold text-sm 
+                    ${p.availableQuantity > 50
+                      ? "bg-green-100 text-green-800"
+                      : p.availableQuantity > 20
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-red-100 text-red-800"}`}
                 >
-                  See Details &rarr;
-                </Link>
+                  {p.availableQuantity} pcs Available
+                </span>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+
+              {/* See Details Button */}
+              <Link to={`/product/${p._id}`}>
+                <button className="w-full mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-xl font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                  See Details
+                </button>
+              </Link>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  )}
+</section>
+
+
+
+
+
 
       {/* Why Choose Us Section */}
       <section className="bg-gradient-to-r from-blue-100 to-blue-50 py-20 px-6">

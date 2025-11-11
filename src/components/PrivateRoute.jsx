@@ -14,7 +14,7 @@ const PrivateRoute = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  if (loading) return <div>Loading...</div>; // Optional loading screen
+  if (loading) return <div>Loading...</div>; 
 
   return user ? children : <Navigate to="/login" replace />;
 };
