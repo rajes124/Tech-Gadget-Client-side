@@ -135,51 +135,63 @@ const ProductDetails = () => {
         </div>
       </motion.div>
 
-      {/* Modal */}
-      <AnimatePresence>
-        {showModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+     {/* Import Modal */}
+<AnimatePresence>
+  {showModal && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+    >
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 120 }}
+        className="bg-white rounded-2xl p-8 w-[380px] shadow-2xl border border-gray-200 relative"
+      >
+        <h3 className="text-2xl font-bold mb-3 text-gray-900">Import Product</h3>
+        <p className="text-gray-600 mb-4">Available Quantity: {product.availableQuantity}</p>
+
+        <input
+          type="number"
+          min="1"
+          max={product.availableQuantity}
+          value={importQuantity}
+          onChange={(e) => setImportQuantity(Number(e.target.value))}
+          className="w-full border p-2.5 rounded-lg mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
+          placeholder="Enter quantity"
+        />
+
+        <div className="flex justify-end gap-4">
+          <button
+            onClick={() => setShowModal(false)}
+            className="px-5 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
           >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 120 }}
-              className="bg-white rounded-2xl p-8 w-[380px] shadow-2xl border border-gray-200 relative"
-            >
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Import Product</h3>
-              <p className="text-gray-600 mb-4">Available Quantity: {product.availableQuantity}</p>
+            Cancel
+          </button>
+          <button
+            onClick={handleImport}
+            disabled={
+              importQuantity <= 0 ||
+              importQuantity > product.availableQuantity ||
+              submitting
+            }
+            className={`px-5 py-2 rounded-lg text-white font-semibold transition ${
+              importQuantity <= 0 || importQuantity > product.availableQuantity || submitting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700 shadow-md"
+            }`}
+          >
+            {submitting ? "Importing..." : "Confirm"}
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
 
-              <input
-                type="number"
-                min="1"
-                max={product.availableQuantity}
-                value={importQuantity}
-                onChange={(e) => setImportQuantity(Number(e.target.value))}
-                className="w-full border p-2.5 rounded-lg mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
-                placeholder="Enter quantity"
-              />
-
-              <div className="flex justify-end gap-4">
-                <button onClick={() => setShowModal(false)} className="px-5 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition">
-                  Cancel
-                </button>
-                <button
-                  onClick={handleImport}
-                  disabled={importQuantity <= 0 || importQuantity > product.availableQuantity || submitting}
-                  className={`px-5 py-2 rounded-lg text-white transition font-semibold ${importQuantity <= 0 || importQuantity > product.availableQuantity || submitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 shadow-md"}`}
-                >
-                  {submitting ? "Importing..." : "Confirm"}
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };

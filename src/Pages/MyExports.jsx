@@ -187,7 +187,7 @@ const MyExports = () => {
                     onChange={(e) =>
                       setEditData({ ...editData, [field.name]: e.target.value })
                     }
-                    className="w-full border border-gray-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 p-2.5 rounded-lg outline-none transition"
+                    className="w-full border border-gray-300 text-green-800 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 p-2.5 rounded-lg outline-none transition"
                     required
                   />
                 </div>
