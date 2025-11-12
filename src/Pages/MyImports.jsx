@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 const MyImports = () => {
   const [imports, setImports] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [importingId, setImportingId] = useState(null); // import process loader
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -18,7 +19,7 @@ const MyImports = () => {
     fetch(`http://localhost:4000/my-imports/${user.uid}`)
       .then((res) => res.json())
       .then((data) => {
-        setImports(data);
+        setImports(data.filter(Boolean)); // null/undefined remove
         setLoading(false);
       })
       .catch((err) => {
@@ -42,6 +43,42 @@ const MyImports = () => {
         console.error(err);
         alert("❌ Failed to remove product.");
       });
+  };
+
+  const handleReImport = async (productId, availableQuantity) => {
+    if (availableQuantity <= 0) return alert("Product out of stock");
+
+    const quantity = Number(prompt(`Enter quantity to import (max ${availableQuantity})`));
+    if (!quantity || quantity <= 0) return;
+
+    setImportingId(productId);
+
+    try {
+      const res = await fetch(`http://localhost:4000/products/import/${productId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity, userId: user.uid }),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        setImports((prev) =>
+          prev.map((item) =>
+            item._id === productId
+              ? { ...item, importedQuantity: (item.importedQuantity || 0) + data.importedQuantity, availableQuantity: data.availableQuantity }
+              : item
+          )
+        );
+        alert(`✅ Imported ${data.importedQuantity} items successfully!`);
+      } else {
+        alert(`❌ ${data.message}`);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("❌ Failed to import product");
+    } finally {
+      setImportingId(null);
+    }
   };
 
   if (loading) {
@@ -91,14 +128,17 @@ const MyImports = () => {
           >
             <img
               src={item.image}
-              alt={item.name}
+              alt={item.name || item.productName}
               className="w-full h-48 object-cover rounded-xl mb-4"
             />
-            <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
+            <h3 className="text-xl font-semibold mb-2">{item.name || item.productName}</h3>
             <p><strong>💰 Price:</strong> ${item.price}</p>
             <p><strong>⭐ Rating:</strong> {item.rating}</p>
-            <p><strong>🌍 Origin:</strong> {flags[(item.originCountry || "").toLowerCase()] || "🌐"} {item.originCountry}</p>
+            <p>
+              <strong>🌍 Origin:</strong> {flags[(item.originCountry || "").toLowerCase()] || "🌐"} {item.originCountry}
+            </p>
             <p><strong>📦 Imported Quantity:</strong> {item.importedQuantity}</p>
+            <p><strong>🛒 Available Quantity:</strong> {item.availableQuantity || 0}</p>
 
             <div className="mt-auto flex gap-2">
               <button
@@ -112,6 +152,21 @@ const MyImports = () => {
                 className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
               >
                 See Details
+              </button>
+              <button
+                onClick={() => handleReImport(item._id, item.availableQuantity || 0)}
+                disabled={importingId === item._id || (item.availableQuantity || 0) <= 0}
+                className={`flex-1 px-4 py-2 rounded-xl text-white transition ${
+                  (item.availableQuantity || 0) > 0
+                    ? "bg-green-500 hover:bg-green-600"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+              >
+                {(item.availableQuantity || 0) > 0
+                  ? importingId === item._id
+                    ? "Importing..."
+                    : "Re-Import"
+                  : "Out of Stock"}
               </button>
             </div>
           </motion.div>
