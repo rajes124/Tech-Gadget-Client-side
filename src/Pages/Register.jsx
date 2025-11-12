@@ -52,35 +52,32 @@ const Register = () => {
         image: photo,
       };
 
-      fetch("http://localhost:4000/users", {
+      await fetch("http://localhost:4000/users", {
         method: "POST",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify(newUser),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("User saved to DB:", data);
-        })
-        .catch((err) => {
-          console.error("Error saving user:", err);
-        });
+      });
 
-      toast.success("Successfully Registered! Please login.");
+      // ✅ localStorage এ রাখো যাতে Navbar সাথে সাথে আপডেট হয়
+      localStorage.setItem("user", JSON.stringify(userCredential.user));
+
+      toast.success("Successfully Registered!");
       setTimeout(() => {
-        navigate("/login");
+        navigate("/"); // Register শেষে Home এ যাবে
       }, 1000);
     } catch (err) {
       toast.error(err.message);
     }
   };
 
-  // ✅ Google Register Function
+  // ✅ Google Register Function (Fixed)
   const handleGoogleRegister = async () => {
     if (loading) return;
     setLoading(true);
     const provider = new GoogleAuthProvider();
+
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -92,24 +89,21 @@ const Register = () => {
         image: user.photoURL,
       };
 
-      fetch("http://localhost:4000/users", {
+      await fetch("http://localhost:4000/users", {
         method: "POST",
         headers: {
           "content-type": "application/json",
         },
         body: JSON.stringify(newUser),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Google user saved:", data);
-        })
-        .catch((err) => {
-          console.error("Error saving Google user:", err);
-        });
+      });
+
+      // ✅ এখনই user-কে localStorage-এ রাখো
+      localStorage.setItem("user", JSON.stringify(user));
 
       toast.success("Google Registration Successful!");
+
       setTimeout(() => {
-        navigate("/");
+        navigate("/"); // Home page এ redirect
       }, 1000);
     } catch (err) {
       if (err.code !== "auth/cancelled-popup-request") {

@@ -7,14 +7,17 @@ import videoFile from "../assets/video.mp4";
 const Home = () => {
   const [products, setProducts] = useState([]);
 
-  // Demo data (will be replaced with MongoDB data later)
-
+  
 useEffect(() => {
-  fetch("http://localhost:4000/latest-products")
-    .then((res) => res.json())
+  fetch("http://localhost:4000/products") // <-- এখানে ঠিক করা
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to fetch products");
+      return res.json();
+    })
     .then((data) => setProducts(data))
     .catch((error) => console.error("Error fetching products:", error));
 }, []);
+
 
 
   return (
@@ -113,8 +116,7 @@ useEffect(() => {
     <p className="text-center text-gray-500">Loading products...</p>
   ) : (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
-      {products.map((p) => {
-        // Flag logic based on originCountry
+      {products.slice(0, 6).map((p) => {  // <-- এখানে slice(0, 6) যোগ হয়েছে
         let flag = "";
         switch ((p.originCountry || "").toLowerCase()) {
           case "usa":
@@ -165,18 +167,12 @@ useEffect(() => {
             <div className="p-5 flex flex-col justify-between h-56">
               <div className="mb-3">
                 <h3 className="text-xl font-semibold mb-2">{p.name}</h3>
-
-                {/* Price */}
                 <p className="text-gray-800 font-semibold mb-1">
                   Price: ${p.price}
                 </p>
-
-                {/* Origin Country + Flag */}
                 <p className="text-gray-600 mb-2 flex items-center gap-2">
                   {flag} {p.originCountry || "Unknown"}
                 </p>
-
-                {/* Available Quantity Badge */}
                 <span
                   className={`inline-block px-3 py-1 rounded-full font-semibold text-sm 
                     ${p.availableQuantity > 50
@@ -189,7 +185,6 @@ useEffect(() => {
                 </span>
               </div>
 
-              {/* See Details Button */}
               <Link to={`/product/${p._id}`}>
                 <button className="w-full mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-xl font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300">
                   See Details
@@ -202,7 +197,6 @@ useEffect(() => {
     </div>
   )}
 </section>
-
 
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -9,6 +9,8 @@ const ProductDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [importQuantity, setImportQuantity] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem("user")); // ✅ Get logged-in user
 
   useEffect(() => {
     fetch(`http://localhost:4000/products/${id}`)
@@ -23,7 +25,17 @@ const ProductDetails = () => {
       });
   }, [id]);
 
-  if (loading) return <p className="text-center mt-20">Loading...</p>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[70vh]">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full"
+        />
+      </div>
+    );
+  }
 
   if (!product || !product._id) {
     return (
@@ -36,136 +48,138 @@ const ProductDetails = () => {
     );
   }
 
-  // Flag logic
-  let flag = "";
-  switch ((product.originCountry || "").toLowerCase()) {
-    case "usa":
-      flag = "🇺🇸"; break;
-    case "germany":
-      flag = "🇩🇪"; break;
-    case "china":
-      flag = "🇨🇳"; break;
-    case "japan":
-      flag = "🇯🇵"; break;
-    case "south korea":
-      flag = "🇰🇷"; break;
-    case "india":
-      flag = "🇮🇳"; break;
-    case "malaysia":
-      flag = "🇲🇾"; break;
-    default:
-      flag = "🌐";
-  }
+  const flags = {
+    usa: "🇺🇸",
+    germany: "🇩🇪",
+    china: "🇨🇳",
+    japan: "🇯🇵",
+    "south korea": "🇰🇷",
+    india: "🇮🇳",
+    malaysia: "🇲🇾",
+  };
+  const flag = flags[(product.originCountry || "").toLowerCase()] || "🌐";
 
   const handleImport = () => {
+    if (!user) {
+      alert("❌ Please login first!");
+      return;
+    }
     if (importQuantity <= 0 || importQuantity > product.availableQuantity) return;
+
     setSubmitting(true);
 
-    // Send request to backend to decrease availableQuantity
     fetch(`http://localhost:4000/products/import/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ quantity: importQuantity }),
+      body: JSON.stringify({ quantity: importQuantity, userId: user.uid }),
     })
       .then((res) => res.json())
       .then((data) => {
-        setProduct(data); // update product state
+        setProduct(data);
         setShowModal(false);
         setImportQuantity(0);
         setSubmitting(false);
-        alert("Product imported successfully!");
+        alert("✅ Product imported successfully!");
       })
       .catch((err) => {
         console.error(err);
         setSubmitting(false);
-        alert("Failed to import product.");
+        alert("❌ Failed to import product.");
       });
   };
 
   return (
-    <div className="max-w-5xl mx-auto py-16 px-6">
+    <div className="max-w-6xl mx-auto py-20 px-6">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="grid md:grid-cols-2 gap-10 items-center bg-white shadow-lg rounded-3xl p-8"
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="grid md:grid-cols-2 gap-10 items-center bg-gradient-to-br from-white/70 to-blue-50/50 backdrop-blur-md shadow-2xl rounded-3xl p-10 border border-white/40 relative overflow-hidden"
       >
-        <img
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-200/30 to-pink-200/20 blur-3xl -z-10"></div>
+
+        <motion.img
           src={product.image}
           alt={product.name}
-          className="rounded-2xl w-full object-cover h-80 shadow"
+          whileHover={{ scale: 1.05, rotateY: 5 }}
+          transition={{ type: "spring", stiffness: 150 }}
+          className="rounded-2xl w-full object-cover h-96 shadow-2xl border border-gray-200"
         />
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">{product.name}</h2>
-          <p className="text-gray-600 mb-3">{product.description}</p>
 
-          <p className="text-gray-700 mb-1"><strong>Price:</strong> ${product.price}</p>
+        <div className="space-y-4">
+          <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight drop-shadow-md">
+            {product.name}
+          </h2>
+          <p className="text-gray-600 text-lg leading-relaxed">{product.description}</p>
 
-          <p className="text-gray-700 mb-1 flex items-center gap-2">
-            <strong>Origin:</strong> {flag} {product.originCountry}
-          </p>
+          <div className="text-gray-800 text-base space-y-1">
+            <p><strong>💰 Price:</strong> ${product.price}</p>
+            <p className="flex items-center gap-2"><strong>🌍 Origin:</strong> {flag} {product.originCountry}</p>
+            <p><strong>📦 Available:</strong> {product.availableQuantity} pcs</p>
+            <p><strong>⭐ Rating:</strong> {product.rating}</p>
+          </div>
 
-          <p className="text-gray-700 mb-1">
-            <strong>Available:</strong> {product.availableQuantity} pcs
-          </p>
-
-          <p className="text-gray-700 mb-3"><strong>Rating:</strong> ⭐ {product.rating}</p>
-
-          <div className="flex gap-4 mt-5">
-            <Link
-              to="/"
-              className="inline-block bg-gray-300 text-gray-800 px-6 py-2 rounded-xl hover:bg-gray-400 transition"
-            >
-              ← Back to Home
+          <div className="flex gap-5 mt-6">
+            <Link to="/" className="px-6 py-2 rounded-xl bg-gray-200 text-gray-800 font-medium shadow hover:shadow-md hover:bg-gray-300 transition">
+              ← Back
             </Link>
-
-            <button
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px rgba(59,130,246,0.6)" }}
               onClick={() => setShowModal(true)}
-              className="inline-block bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition"
+              className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold px-8 py-2.5 rounded-xl shadow-lg hover:shadow-blue-300 transition"
             >
               Import Now
-            </button>
+            </motion.button>
           </div>
         </div>
       </motion.div>
 
-      {/* Import Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-xl w-96 relative">
-            <h3 className="text-2xl font-bold mb-4">Import Product</h3>
-            <p className="mb-2">Available Quantity: {product.availableQuantity}</p>
-            <input
-              type="number"
-              min="1"
-              max={product.availableQuantity}
-              value={importQuantity}
-              onChange={(e) => setImportQuantity(Number(e.target.value))}
-              className="w-full border p-2 rounded mb-4"
-              placeholder="Enter quantity"
-            />
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleImport}
-                disabled={importQuantity <= 0 || importQuantity > product.availableQuantity || submitting}
-                className={`px-4 py-2 rounded text-white transition ${
-                  importQuantity <= 0 || importQuantity > product.availableQuantity || submitting
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
-                }`}
-              >
-                {submitting ? "Importing..." : "Submit"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 120 }}
+              className="bg-white rounded-2xl p-8 w-[380px] shadow-2xl border border-gray-200 relative"
+            >
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">Import Product</h3>
+              <p className="text-gray-600 mb-4">Available Quantity: {product.availableQuantity}</p>
+
+              <input
+                type="number"
+                min="1"
+                max={product.availableQuantity}
+                value={importQuantity}
+                onChange={(e) => setImportQuantity(Number(e.target.value))}
+                className="w-full border p-2.5 rounded-lg mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
+                placeholder="Enter quantity"
+              />
+
+              <div className="flex justify-end gap-4">
+                <button onClick={() => setShowModal(false)} className="px-5 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition">
+                  Cancel
+                </button>
+                <button
+                  onClick={handleImport}
+                  disabled={importQuantity <= 0 || importQuantity > product.availableQuantity || submitting}
+                  className={`px-5 py-2 rounded-lg text-white transition font-semibold ${importQuantity <= 0 || importQuantity > product.availableQuantity || submitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 shadow-md"}`}
+                >
+                  {submitting ? "Importing..." : "Confirm"}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
