@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ProductDetails = () => {
@@ -9,8 +9,9 @@ const ProductDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [importQuantity, setImportQuantity] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user")); // ✅ Get logged-in user
+  const user = JSON.parse(localStorage.getItem("user")); // ✅ Logged-in user
 
   useEffect(() => {
     fetch(`http://localhost:4000/products/${id}`)
@@ -59,12 +60,18 @@ const ProductDetails = () => {
   };
   const flag = flags[(product.originCountry || "").toLowerCase()] || "🌐";
 
+  // ✅ Import handler
   const handleImport = () => {
     if (!user) {
       alert("❌ Please login first!");
+      navigate("/login");
       return;
     }
-    if (importQuantity <= 0 || importQuantity > product.availableQuantity) return;
+
+    if (importQuantity <= 0 || importQuantity > product.availableQuantity) {
+      alert("⚠️ Enter valid quantity!");
+      return;
+    }
 
     setSubmitting(true);
 
@@ -74,12 +81,12 @@ const ProductDetails = () => {
       body: JSON.stringify({ quantity: importQuantity, userId: user.uid }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        setProduct(data);
+      .then(() => {
         setShowModal(false);
-        setImportQuantity(0);
         setSubmitting(false);
+        setImportQuantity(0);
         alert("✅ Product imported successfully!");
+        navigate("/my-imports"); // 🔹 Redirect to My Imports page
       })
       .catch((err) => {
         console.error(err);
@@ -96,12 +103,10 @@ const ProductDetails = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="grid md:grid-cols-2 gap-10 items-center bg-gradient-to-br from-white/70 to-blue-50/50 backdrop-blur-md shadow-2xl rounded-3xl p-10 border border-white/40 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-200/30 to-pink-200/20 blur-3xl -z-10"></div>
-
         <motion.img
           src={product.image}
           alt={product.name}
-          whileHover={{ scale: 1.05, rotateY: 5 }}
+          whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 150 }}
           className="rounded-2xl w-full object-cover h-96 shadow-2xl border border-gray-200"
         />
@@ -114,7 +119,7 @@ const ProductDetails = () => {
 
           <div className="text-gray-800 text-base space-y-1">
             <p><strong>💰 Price:</strong> ${product.price}</p>
-            <p className="flex items-center gap-2"><strong>🌍 Origin:</strong> {flag} {product.originCountry}</p>
+            <p><strong>🌍 Origin:</strong> {flag} {product.originCountry}</p>
             <p><strong>📦 Available:</strong> {product.availableQuantity} pcs</p>
             <p><strong>⭐ Rating:</strong> {product.rating}</p>
           </div>
@@ -125,7 +130,7 @@ const ProductDetails = () => {
             </Link>
             <motion.button
               whileTap={{ scale: 0.95 }}
-              whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px rgba(59,130,246,0.6)" }}
+              whileHover={{ scale: 1.05 }}
               onClick={() => setShowModal(true)}
               className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold px-8 py-2.5 rounded-xl shadow-lg hover:shadow-blue-300 transition"
             >
@@ -135,63 +140,63 @@ const ProductDetails = () => {
         </div>
       </motion.div>
 
-     {/* Import Modal */}
-<AnimatePresence>
-  {showModal && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-    >
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 120 }}
-        className="bg-white rounded-2xl p-8 w-[380px] shadow-2xl border border-gray-200 relative"
-      >
-        <h3 className="text-2xl font-bold mb-3 text-gray-900">Import Product</h3>
-        <p className="text-gray-600 mb-4">Available Quantity: {product.availableQuantity}</p>
-
-        <input
-          type="number"
-          min="1"
-          max={product.availableQuantity}
-          value={importQuantity}
-          onChange={(e) => setImportQuantity(Number(e.target.value))}
-          className="w-full border p-2.5 rounded-lg mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
-          placeholder="Enter quantity"
-        />
-
-        <div className="flex justify-end gap-4">
-          <button
-            onClick={() => setShowModal(false)}
-            className="px-5 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
+      {/* ✅ Import Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
           >
-            Cancel
-          </button>
-          <button
-            onClick={handleImport}
-            disabled={
-              importQuantity <= 0 ||
-              importQuantity > product.availableQuantity ||
-              submitting
-            }
-            className={`px-5 py-2 rounded-lg text-white font-semibold transition ${
-              importQuantity <= 0 || importQuantity > product.availableQuantity || submitting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700 shadow-md"
-            }`}
-          >
-            {submitting ? "Importing..." : "Confirm"}
-          </button>
-        </div>
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="bg-white rounded-2xl p-8 w-[380px] shadow-2xl border border-gray-200"
+            >
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">Import Product</h3>
+              <p className="text-gray-600 mb-4">Available Quantity: {product.availableQuantity}</p>
 
+              <input
+                type="number"
+                min="1"
+                max={product.availableQuantity}
+                value={importQuantity}
+                onChange={(e) => setImportQuantity(Number(e.target.value))}
+                className="w-full border p-2.5 rounded-lg mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
+                placeholder="Enter quantity"
+              />
+
+              <div className="flex justify-end gap-4">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="px-5 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleImport}
+                  disabled={
+                    importQuantity <= 0 ||
+                    importQuantity > product.availableQuantity ||
+                    submitting
+                  }
+                  className={`px-5 py-2 rounded-lg text-white font-semibold transition ${
+                    importQuantity <= 0 ||
+                    importQuantity > product.availableQuantity ||
+                    submitting
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-blue-700 shadow-md"
+                  }`}
+                >
+                  {submitting ? "Importing..." : "Confirm"}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

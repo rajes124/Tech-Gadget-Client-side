@@ -7,10 +7,14 @@ const MyImports = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user")); // ✅ Logged-in user
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     fetch(`http://localhost:4000/my-imports/${user.uid}`)
       .then((res) => res.json())
       .then((data) => {
@@ -21,7 +25,7 @@ const MyImports = () => {
         console.error(err);
         setLoading(false);
       });
-  }, [user]);
+  }, [user, navigate]);
 
   const handleRemove = (productId) => {
     if (!window.confirm("Are you sure you want to remove this import?")) return;
@@ -31,7 +35,7 @@ const MyImports = () => {
     })
       .then((res) => res.json())
       .then(() => {
-        setImports(imports.filter((item) => item._id !== productId));
+        setImports((prev) => prev.filter((item) => item._id !== productId));
         alert("✅ Product removed successfully!");
       })
       .catch((err) => {
@@ -85,7 +89,11 @@ const MyImports = () => {
             exit={{ opacity: 0, y: 20 }}
             className="bg-white rounded-2xl shadow-lg p-6 flex flex-col"
           >
-            <img src={item.image} alt={item.name} className="w-full h-48 object-cover rounded-xl mb-4" />
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-full h-48 object-cover rounded-xl mb-4"
+            />
             <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
             <p><strong>💰 Price:</strong> ${item.price}</p>
             <p><strong>⭐ Rating:</strong> {item.rating}</p>
