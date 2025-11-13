@@ -53,29 +53,29 @@ const Profile = () => {
     return <p className="text-center mt-20 text-gray-500">No user logged in.</p>;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md flex flex-col items-center gap-5 transition-all duration-300">
-        <h2 className="text-2xl font-bold text-gray-800">My Profile</h2>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4 sm:px-6 lg:px-8 py-10">
+      <div className="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl w-full max-w-md flex flex-col items-center gap-6 sm:gap-8 transition-all duration-300">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 text-center">My Profile</h2>
 
         {/* Profile Photo */}
         <img
           src={photo || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
           alt={name || user.email}
-          className="w-28 h-28 rounded-full border-4 border-blue-500 object-cover shadow-md transition-transform duration-300 hover:scale-105"
+          className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full border-4 border-blue-500 object-cover shadow-md transition-transform duration-300 hover:scale-105"
         />
 
         {/* User Info */}
         <div className="text-center">
-          <h3 className="text-lg font-semibold text-gray-800">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-800">
             {user.displayName || "No Name"}
           </h3>
-          <p className="text-gray-500">{user.email}</p>
+          <p className="text-gray-500 text-sm sm:text-base">{user.email}</p>
         </div>
 
         {/* Toggle Button */}
         <button
           onClick={() => setShowForm(!showForm)}
-          className="mt-3 px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md"
+          className="mt-2 sm:mt-3 px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md w-full sm:w-auto text-center"
         >
           {showForm ? "Close Editor" : "Edit Profile"}
         </button>
@@ -84,14 +84,12 @@ const Profile = () => {
         {showForm && (
           <div className="w-full flex flex-col gap-4 mt-4 border-t pt-4">
             <div className="w-full flex flex-col text-left">
-              <label className="text-gray-700 font-medium mb-1">
-                Full Name
-              </label>
+              <label className="text-gray-700 font-medium mb-1">Full Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="border border-gray-300 p-2 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                className="border border-gray-300 p-2 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-base sm:text-sm md:text-base"
                 placeholder="Enter your name"
               />
             </div>
@@ -102,19 +100,17 @@ const Profile = () => {
                 type="email"
                 value={email}
                 readOnly
-                className="border border-gray-300 p-2 rounded-lg text-gray-500 bg-gray-100 cursor-not-allowed text-base"
+                className="border border-gray-300 p-2 rounded-lg text-gray-500 bg-gray-100 cursor-not-allowed text-base sm:text-sm md:text-base"
               />
             </div>
 
             <div className="w-full flex flex-col text-left">
-              <label className="text-gray-700 font-medium mb-1">
-                Photo URL
-              </label>
+              <label className="text-gray-700 font-medium mb-1">Photo URL</label>
               <input
                 type="text"
                 value={photo}
                 onChange={(e) => setPhoto(e.target.value)}
-                className="border border-gray-300 p-2 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+                className="border border-gray-300 p-2 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-base sm:text-sm md:text-base"
                 placeholder="Enter photo URL"
               />
             </div>

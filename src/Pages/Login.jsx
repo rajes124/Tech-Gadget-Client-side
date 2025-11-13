@@ -31,14 +31,31 @@ const Login = () => {
     }
   };
 
-  // ✅ Google Login
+  // ✅ Google Login with safe DB check
   const handleGoogleLogin = async () => {
     if (loading) return;
     setLoading(true);
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
-      localStorage.setItem("user", JSON.stringify(result.user));
+      const user = result.user;
+
+      // -------------------------------
+      // DB তে ইউজার চেক + তৈরি
+      // -------------------------------
+      await fetch("http://localhost:4000/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+        }),
+      });
+
+      // LocalStorage এ সেভ
+      localStorage.setItem("user", JSON.stringify(user));
       toast.success("Google Login Successful!");
       setTimeout(() => navigate("/"), 1000);
     } catch (err) {
