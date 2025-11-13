@@ -18,7 +18,7 @@ const MyExports = () => {
       }
 
       try {
-        const res = await fetch(`http://localhost:4000/my-exports/${user.email}`);
+        const res = await fetch(`https://back-end-server-theta.vercel.app/my-exports/${user.email}`);
         if (!res.ok) throw new Error("Failed to fetch exports");
         const data = await res.json();
         setExports(data);
@@ -38,7 +38,7 @@ const MyExports = () => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/my-exports/${id}`, {
+      const res = await fetch(`back-end-server-theta.vercel.app/my-exports/${id}`, {
         method: "DELETE",
       });
 
@@ -63,7 +63,7 @@ const MyExports = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://localhost:4000/my-exports/${editing}`, {
+      const res = await fetch(`back-end-server-theta.vercel.app/my-exports/${editing}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editData),

@@ -15,7 +15,7 @@ const AllProducts = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:4000/products")
+    fetch("https://back-end-server-theta.vercel.app/products")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
@@ -50,7 +50,7 @@ const AllProducts = () => {
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center sm:text-left">
-            <span className="text-black dark:text-white">🌍 All</span>{" "}
+            <span className="text-black dark:text-green-500">🌍 All</span>{" "}
             <span className="text-blue-600 dark:text-blue-400">Products</span>
           </h2>
 

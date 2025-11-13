@@ -58,7 +58,7 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      await fetch("http://localhost:4000/users", {
+      await fetch("https://back-end-server-theta.vercel.app/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

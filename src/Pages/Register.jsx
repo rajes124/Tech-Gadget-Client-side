@@ -41,7 +41,7 @@ const Register = () => {
 
       const newUser = { name, email, image: photo };
 
-      await fetch("http://localhost:4000/users", {
+      await fetch("https://back-end-server-theta.vercel.app/users", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(newUser),
@@ -66,7 +66,7 @@ const Register = () => {
       const user = result.user;
 
       const newUser = { name: user.displayName, email: user.email, image: user.photoURL };
-      await fetch("http://localhost:4000/users", {
+      await fetch("back-end-server-theta.vercel.app/users", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(newUser),

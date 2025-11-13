@@ -15,7 +15,7 @@ const ProductDetails = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    fetch(`http://localhost:4000/products/${id}`)
+    fetch(`https://back-end-server-theta.vercel.app/products/${id}`)
       .then(res => res.json())
       .then(data => { setProduct(data); setLoading(false); })
       .catch(err => { console.error(err); setLoading(false); });
@@ -46,7 +46,7 @@ const ProductDetails = () => {
     if (importQuantity <= 0 || importQuantity > product.availableQuantity) { toast.warn("⚠️ Enter valid quantity!"); return; }
 
     setSubmitting(true);
-    fetch(`http://localhost:4000/products/import/${id}`, {
+    fetch(`https://back-end-server-theta.vercel.app/products/import/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ quantity: importQuantity, userId: user.uid }),

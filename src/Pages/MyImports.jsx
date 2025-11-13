@@ -15,7 +15,7 @@ const MyImports = () => {
   const fetchImports = async () => {
     if (!user || !user.uid) return;
     try {
-      const res = await fetch(`http://localhost:4000/my-imports/${user.uid}`);
+      const res = await fetch(`https://back-end-server-theta.vercel.app/my-imports/${user.uid}`);
       if (!res.ok) throw new Error("Failed to fetch imports");
       const data = await res.json();
       setImports(data.filter(Boolean));
@@ -46,7 +46,7 @@ const MyImports = () => {
   const handleRemove = async (id) => {
     if (!window.confirm("Are you sure?")) return;
     try {
-      const res = await fetch(`http://localhost:4000/my-imports/${user.uid}/${id}`, { method: "DELETE" });
+      const res = await fetch(`back-end-server-theta.vercel.app/my-imports/${user.uid}/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Delete failed");
       toast.success("🗑️ Import removed successfully!");
       fetchImports(); 
@@ -62,7 +62,7 @@ const MyImports = () => {
 
     setImportingId(id);
     try {
-      const res = await fetch(`http://localhost:4000/products/import/${id}`, {
+      const res = await fetch(`back-end-server-theta.vercel.app/products/import/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quantity, userId: user.uid }),

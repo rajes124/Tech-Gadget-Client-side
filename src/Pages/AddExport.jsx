@@ -39,7 +39,7 @@ const AddExport = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
 
-      const response = await fetch("http://localhost:4000/products", {
+      const response = await fetch("https://back-end-server-theta.vercel.app/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

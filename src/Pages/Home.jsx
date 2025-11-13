@@ -8,7 +8,7 @@ const Home = ({ theme }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/products")
+    fetch("https://back-end-server-theta.vercel.app/products")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch products");
         return res.json();
