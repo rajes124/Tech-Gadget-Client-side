@@ -24,7 +24,6 @@ const AddExport = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
     if (
       !formData.productName ||
       !formData.image ||
@@ -66,7 +65,6 @@ const AddExport = () => {
         availableQuantity: "",
       });
 
-      // Redirect to All Products after a short delay
       setTimeout(() => navigate("/all-products"), 1500);
     } catch (error) {
       console.error(error);
@@ -75,15 +73,15 @@ const AddExport = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100 relative overflow-hidden px-4 sm:px-6 lg:px-8">
       {/* Background shapes */}
       <motion.div
-        className="absolute w-72 h-72 bg-purple-300 rounded-full -top-20 -left-20 opacity-30"
+        className="absolute w-56 sm:w-72 md:w-80 h-56 sm:h-72 md:h-80 bg-purple-300 rounded-full -top-20 -left-20 opacity-30"
         animate={{ rotate: 360 }}
         transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
       />
       <motion.div
-        className="absolute w-96 h-96 bg-pink-200 rounded-full -bottom-24 -right-24 opacity-20"
+        className="absolute w-72 sm:w-96 h-72 sm:h-96 bg-pink-200 rounded-full -bottom-24 -right-24 opacity-20"
         animate={{ rotate: -360 }}
         transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
       />
@@ -93,13 +91,13 @@ const AddExport = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="relative bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-8 w-full max-w-md z-10"
+        className="relative bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 w-full max-w-sm sm:max-w-md md:max-w-lg z-10"
       >
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-center text-gray-800">
           Add Export / Product
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
           {[
             { label: "Product Name", name: "productName", type: "text", placeholder: "Enter product name" },
             { label: "Image URL", name: "image", type: "text", placeholder: "Enter image URL" },
@@ -109,7 +107,9 @@ const AddExport = () => {
             { label: "Available Quantity", name: "availableQuantity", type: "number", placeholder: "Enter quantity" },
           ].map((field) => (
             <div key={field.name} className="relative w-full">
-              <label className="block text-gray-700 font-medium mb-1">{field.label}</label>
+              <label className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
+                {field.label}
+              </label>
               <input
                 type={field.type}
                 name={field.name}
@@ -119,21 +119,21 @@ const AddExport = () => {
                 min={field.min}
                 max={field.max}
                 step={field.step}
-                className="w-full p-3 border border-gray-300 text-green-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                className="w-full p-2.5 sm:p-3 border border-gray-300 text-green-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition text-sm sm:text-base"
               />
             </div>
           ))}
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-3 rounded-xl font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300"
+            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300 text-sm sm:text-base"
           >
             Add Product
           </button>
         </form>
       </motion.div>
 
-      <ToastContainer />
+      <ToastContainer position="bottom-center" autoClose={2000} />
     </div>
   );
 };
