@@ -160,7 +160,7 @@ const MyExports = () => {
         ))}
       </div>
 
-      {/* ✳️ Update Modal */}
+      {/* Update Modal */}
       {editing && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4">
           <div className="bg-white w-full max-w-lg rounded-2xl p-6 sm:p-8 shadow-2xl animate-fadeIn max-h-[90vh] overflow-y-auto">

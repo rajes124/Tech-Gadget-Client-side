@@ -8,7 +8,9 @@ import Register from "./Pages/Register.jsx";
 import MyExports from "./Pages/MyExports.jsx";
 import MyImports from "./Pages/MyImports.jsx";
 import AddExport from "./Pages/AddExport.jsx";
-import Profile from "./Pages/Profile.jsx"; // ✅ Profile page import
+import Profile from "./Pages/Profile.jsx";
+import Terms from "./Pages/Terms.jsx";      // ✅ Terms page import
+import Privacy from "./Pages/Privacy.jsx";  // ✅ Privacy page import
 import PrivateRoute from "./components/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
@@ -53,13 +55,17 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile", // ✅ New Profile route
+        path: "/profile",
         element: (
           <PrivateRoute>
             <Profile />
           </PrivateRoute>
         ),
       },
+
+      // ✅ Terms & Privacy routes (public)
+      { path: "/terms", element: <Terms /> },
+      { path: "/privacy", element: <Privacy /> },
     ],
   },
 ]);

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -10,7 +12,6 @@ const ProductDetails = () => {
   const [importQuantity, setImportQuantity] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
-
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -41,8 +42,8 @@ const ProductDetails = () => {
   const flag = flags[(product.originCountry||"").toLowerCase()] || "🌐";
 
   const handleImport = () => {
-    if (!user) { alert("❌ Please login first!"); navigate("/login"); return; }
-    if (importQuantity <= 0 || importQuantity > product.availableQuantity) { alert("⚠️ Enter valid quantity!"); return; }
+    if (!user) { toast.error("❌ Please login first!"); navigate("/login"); return; }
+    if (importQuantity <= 0 || importQuantity > product.availableQuantity) { toast.warn("⚠️ Enter valid quantity!"); return; }
 
     setSubmitting(true);
     fetch(`http://localhost:4000/products/import/${id}`, {
@@ -55,10 +56,10 @@ const ProductDetails = () => {
       setShowModal(false);
       setSubmitting(false);
       setImportQuantity(0);
-      alert("✅ Product imported successfully!");
+      toast.success("✅ Product imported successfully!");
       navigate("/my-imports");
     })
-    .catch(err => { console.error(err); setSubmitting(false); alert("❌ Failed to import product."); });
+    .catch(err => { console.error(err); setSubmitting(false); toast.error("❌ Failed to import product."); });
   };
 
   return (
@@ -85,7 +86,7 @@ const ProductDetails = () => {
             <p className="text-gray-600 text-base sm:text-lg leading-relaxed">{product.description}</p>
 
             <div className="text-gray-800 text-sm sm:text-base space-y-1">
-              <p><strong>💰 Price:</strong> ${product.price}</p>
+              <p><strong>💰 Price:</strong> ${product.price?.toFixed(2)}</p>
               <p><strong>🌍 Origin:</strong> {flag} {product.originCountry}</p>
               <p><strong>📦 Available:</strong> {product.availableQuantity} pcs</p>
               <p><strong>⭐ Rating:</strong> {product.rating}</p>
@@ -105,53 +106,55 @@ const ProductDetails = () => {
           </div>
         </motion.div>
       </div>
-<AnimatePresence>
-  {showModal && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4"
-    >
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl border border-gray-200 flex flex-col gap-4"
-      >
-        <h3 className="text-2xl font-bold text-gray-900 drop-shadow-sm">Import Product</h3>
-        <p className="text-gray-700 text-sm">Available Quantity: <span className="font-semibold">{product.availableQuantity}</span></p>
 
-        <input
-          type="number"
-          min="1"
-          max={product.availableQuantity}
-          value={importQuantity}
-          onChange={(e) => setImportQuantity(Number(e.target.value))}
-          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:outline-none text-gray-900 placeholder-gray-400 font-medium text-base"
-          placeholder="Enter quantity"
-        />
-
-        <div className="flex flex-col sm:flex-row gap-3 mt-2">
-          <button
-            onClick={() => setShowModal(false)}
-            className="w-full sm:w-auto px-5 py-3 rounded-xl bg-gray-200 text-gray-800 font-medium hover:bg-gray-300 transition"
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4"
           >
-            Cancel
-          </button>
-          <button
-            onClick={handleImport}
-            disabled={importQuantity <= 0 || importQuantity > product.availableQuantity || submitting}
-            className={`w-full sm:w-auto px-5 py-3 rounded-xl font-semibold transition text-white ${importQuantity <= 0 || importQuantity > product.availableQuantity || submitting ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md"}`}
-          >
-            {submitting ? "Importing..." : "Confirm"}
-          </button>
-        </div>
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl border border-gray-200 flex flex-col gap-4"
+            >
+              <h3 className="text-2xl font-bold text-gray-900 drop-shadow-sm">Import Product</h3>
+              <p className="text-gray-700 text-sm">Available Quantity: <span className="font-semibold">{product.availableQuantity}</span></p>
 
+              <input
+                type="number"
+                min="1"
+                max={product.availableQuantity}
+                value={importQuantity}
+                onChange={(e) => setImportQuantity(Number(e.target.value))}
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:outline-none text-gray-900 placeholder-gray-400 font-medium text-base"
+                placeholder="Enter quantity"
+              />
+
+              <div className="flex flex-col sm:flex-row gap-3 mt-2">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="w-full sm:w-auto px-5 py-3 rounded-xl bg-gray-200 text-gray-800 font-medium hover:bg-gray-300 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleImport}
+                  disabled={importQuantity <= 0 || importQuantity > product.availableQuantity || submitting}
+                  className={`w-full sm:w-auto px-5 py-3 rounded-xl font-semibold transition text-white ${importQuantity <= 0 || importQuantity > product.availableQuantity || submitting ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-md"}`}
+                >
+                  {submitting ? "Importing..." : "Confirm"}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };

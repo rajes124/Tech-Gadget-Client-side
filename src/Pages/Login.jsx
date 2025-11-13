@@ -18,20 +18,38 @@ const Login = () => {
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Normal Email Login
+  // Password Validation Function
+  const validatePassword = (pwd) => {
+    if (!pwd) return "empty";
+    if (!/[A-Z]/.test(pwd) || !/[a-z]/.test(pwd) || pwd.length < 6) return "invalid";
+    return "valid";
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    const validation = validatePassword(password);
+
+    if (validation === "empty") {
+      toast.error("Password cannot be empty");
+      return;
+    }
+
+    if (validation === "invalid") {
+      toast.error("Password must contain at least 1 uppercase, 1 lowercase, and be at least 6 characters long");
+      return;
+    }
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("user", JSON.stringify(userCredential.user));
       toast.success("Login Successful!");
       setTimeout(() => navigate("/"), 1000);
     } catch (err) {
-      toast.error(err.message);
+      toast.error("Invalid email or password!");
     }
   };
 
-  // ✅ Google Login with safe DB check
   const handleGoogleLogin = async () => {
     if (loading) return;
     setLoading(true);
@@ -40,9 +58,6 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // -------------------------------
-      // DB তে ইউজার চেক + তৈরি
-      // -------------------------------
       await fetch("http://localhost:4000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -54,7 +69,6 @@ const Login = () => {
         }),
       });
 
-      // LocalStorage এ সেভ
       localStorage.setItem("user", JSON.stringify(user));
       toast.success("Google Login Successful!");
       setTimeout(() => navigate("/"), 1000);
@@ -100,8 +114,6 @@ const Login = () => {
             </span>
           </div>
 
-          <ToastContainer position="top-right" autoClose={3000} theme="colored" />
-
           <Link
             to="/register"
             className="text-blue-600 text-xs sm:text-sm font-medium"
@@ -137,6 +149,8 @@ const Login = () => {
             </span>
           </button>
         </div>
+
+        <ToastContainer position="top-right" autoClose={3000} theme="colored" />
       </div>
     </div>
   );

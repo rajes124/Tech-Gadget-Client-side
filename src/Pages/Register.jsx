@@ -49,8 +49,8 @@ const Register = () => {
 
       localStorage.setItem("user", JSON.stringify(userCredential.user));
 
-      toast.success("Successfully Registered!");
-      setTimeout(() => navigate("/"), 1000);
+      toast.success("Successfully Registered! Redirecting to Login...");
+      setTimeout(() => navigate("/login"), 1500); // redirect to login
     } catch (err) {
       toast.error(err.message);
     }
@@ -73,8 +73,8 @@ const Register = () => {
       });
 
       localStorage.setItem("user", JSON.stringify(user));
-      toast.success("Google Registration Successful!");
-      setTimeout(() => navigate("/"), 1000);
+      toast.success("Google Registration Successful! Redirecting to Login...");
+      setTimeout(() => navigate("/login"), 1500); // redirect to login
     } catch (err) {
       if (err.code !== "auth/cancelled-popup-request") toast.error(err.message);
     } finally {
