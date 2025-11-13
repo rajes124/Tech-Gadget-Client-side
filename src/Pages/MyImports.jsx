@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MyImports = () => {
   const [imports, setImports] = useState([]);
@@ -28,6 +30,7 @@ const MyImports = () => {
       })
       .catch((err) => {
         console.error(err);
+        toast.error("Failed to load imports 😢");
         setLoading(false);
       });
   }, [user, navigate]);
@@ -37,13 +40,16 @@ const MyImports = () => {
     if (!window.confirm("Are you sure?")) return;
     fetch(`http://localhost:4000/my-imports/${user.uid}/${id}`, { method: "DELETE" })
       .then((res) => res.json())
-      .then(() => setImports((prev) => prev.filter((item) => item._id !== id)))
-      .catch(console.error);
+      .then(() => {
+        setImports((prev) => prev.filter((item) => item._id !== id));
+        toast.success("🗑️ Import removed successfully!");
+      })
+      .catch(() => toast.error("❌ Failed to remove import"));
   };
 
   // Re-import
   const handleReImport = async (id, available) => {
-    if (available <= 0) return alert("Out of stock");
+    if (available <= 0) return toast.warn("⚠️ Out of stock!");
     const quantity = Number(prompt(`Enter quantity (max ${available})`));
     if (!quantity || quantity <= 0) return;
 
@@ -69,13 +75,13 @@ const MyImports = () => {
               : item
           )
         );
-        alert(`✅ Imported ${data.importedQuantity} items!`);
+        toast.success(`✅ Imported ${data.importedQuantity} items!`);
       } else {
-        alert(`❌ ${data.message}`);
+        toast.error(`❌ ${data.message}`);
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to import");
+      toast.error("🚫 Failed to import");
     } finally {
       setImportingId(null);
     }
@@ -99,6 +105,7 @@ const MyImports = () => {
         <Link to="/" className="text-blue-500 mt-4 inline-block hover:underline">
           Browse Products
         </Link>
+        <ToastContainer position="bottom-right" />
       </div>
     );
 
@@ -179,6 +186,7 @@ const MyImports = () => {
           </motion.div>
         ))}
       </div>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };
