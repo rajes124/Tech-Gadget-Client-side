@@ -9,7 +9,6 @@ const MyImports = () => {
   const [loading, setLoading] = useState(true);
   const [importingId, setImportingId] = useState(null);
   const navigate = useNavigate();
-
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -18,7 +17,6 @@ const MyImports = () => {
       return;
     }
 
-    // ✅ Fetch only if user exists
     fetch(`http://localhost:4000/my-imports/${user.uid}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch imports");
@@ -28,14 +26,12 @@ const MyImports = () => {
         setImports(data.filter(Boolean));
         setLoading(false);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
         toast.error("Failed to load imports 😢");
         setLoading(false);
       });
   }, [user, navigate]);
 
-  // Remove import
   const handleRemove = (id) => {
     if (!window.confirm("Are you sure?")) return;
     fetch(`http://localhost:4000/my-imports/${user.uid}/${id}`, { method: "DELETE" })
@@ -47,7 +43,6 @@ const MyImports = () => {
       .catch(() => toast.error("❌ Failed to remove import"));
   };
 
-  // Re-import
   const handleReImport = async (id, available) => {
     if (available <= 0) return toast.warn("⚠️ Out of stock!");
     const quantity = Number(prompt(`Enter quantity (max ${available})`));
@@ -60,9 +55,7 @@ const MyImports = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quantity, userId: user.uid }),
       });
-
       const data = await res.json();
-
       if (res.ok) {
         setImports((prev) =>
           prev.map((item) =>
@@ -79,8 +72,7 @@ const MyImports = () => {
       } else {
         toast.error(`❌ ${data.message}`);
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error("🚫 Failed to import");
     } finally {
       setImportingId(null);
@@ -121,71 +113,94 @@ const MyImports = () => {
 
   return (
     <div className="max-w-6xl mx-auto py-20 px-6">
-      <h2 className="text-3xl font-bold mb-10 text-center">My Imports</h2>
+      <h2 className="text-3xl font-bold mb-10 text-center bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+        My Imports
+      </h2>
+
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {imports.map((item) => (
+        {imports.map((item, i) => (
           <motion.div
             key={item._id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="bg-white rounded-2xl shadow-lg p-6 flex flex-col"
+            transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
+            className="relative bg-white rounded-2xl overflow-hidden border border-gray-200
+                       hover:border-transparent hover:shadow-2xl hover:scale-[1.03] hover:-translate-y-2
+                       transition-all duration-500 group"
           >
-            <img
-              src={item.image}
-              alt={item.name || item.productName}
-              className="w-full h-48 object-cover rounded-xl mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">{item.name || item.productName}</h3>
-            <p>
-              <strong>💰 Price:</strong> ${item.price}
-            </p>
-            <p>
-              <strong>⭐ Rating:</strong> {item.rating}
-            </p>
-            <p>
-              <strong>🌍 Origin:</strong> {flags[(item.originCountry || "").toLowerCase()] || "🌐"}{" "}
-              {item.originCountry}
-            </p>
-            <p>
-              <strong>📦 Imported Quantity:</strong> {item.importedQuantity}
-            </p>
-            <p>
-              <strong>🛒 Available Quantity:</strong> {item.availableQuantity || 0}
-            </p>
+            {/* Gradient glow border */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 
+                            opacity-0 group-hover:opacity-100 blur-lg transition-all duration-700 -z-10"></div>
 
-            <div className="mt-auto flex gap-2">
-              <button
-                onClick={() => handleRemove(item._id)}
-                className="flex-1 px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-600 transition"
-              >
-                Remove
-              </button>
-              <button
-                onClick={() => navigate(`/product/${item._id}`)}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
-              >
-                See Details
-              </button>
-              <button
-                onClick={() => handleReImport(item._id, item.availableQuantity || 0)}
-                disabled={importingId === item._id || (item.availableQuantity || 0) <= 0}
-                className={`flex-1 px-4 py-2 rounded-xl text-white transition ${
-                  item.availableQuantity > 0
-                    ? "bg-green-500 hover:bg-green-600"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
-              >
-                {item.availableQuantity > 0
-                  ? importingId === item._id
-                    ? "Importing..."
-                    : "Re-Import"
-                  : "Out of Stock"}
-              </button>
+            {/* Card Content */}
+            <div className="p-4 flex flex-col h-full justify-between">
+              {/* Image */}
+              <div className="overflow-hidden rounded-xl mb-3">
+                <motion.img
+                  whileHover={{ scale: 1.07 }}
+                  transition={{ duration: 0.4 }}
+                  src={item.image}
+                  alt={item.name || item.productName}
+                  className="w-full h-40 object-cover rounded-xl"
+                />
+              </div>
+
+              {/* Info */}
+              <div className="flex flex-col flex-grow text-gray-800">
+                <h3 className="text-lg font-semibold mb-1 line-clamp-1">
+                  {item.name || item.productName}
+                </h3>
+                <p className="text-sm"><strong>💰 Price:</strong> ${item.price}</p>
+                <p className="text-sm"><strong>⭐ Rating:</strong> {item.rating}</p>
+                <p className="text-sm">
+                  <strong>🌍 Origin:</strong> {flags[(item.originCountry || "").toLowerCase()] || "🌐"} {item.originCountry}
+                </p>
+                <p className="text-sm"><strong>📦 Imported:</strong> {item.importedQuantity}</p>
+                <p className="text-sm"><strong>🛒 Available:</strong> {item.availableQuantity || 0}</p>
+              </div>
+
+              {/* Buttons */}
+              <div className="mt-3 flex flex-col gap-2">
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => handleRemove(item._id)}
+                  className="px-3 py-2 bg-gradient-to-r from-red-500 to-pink-600 text-white text-sm font-medium rounded-lg shadow-md 
+                             hover:shadow-lg hover:brightness-110 transition-all"
+                >
+                  Remove
+                </motion.button>
+
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => navigate(`/product/${item._id}`)}
+                  className="px-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm font-medium rounded-lg shadow-md 
+                             hover:shadow-lg hover:brightness-110 transition-all"
+                >
+                  See Details
+                </motion.button>
+
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => handleReImport(item._id, item.availableQuantity || 0)}
+                  disabled={importingId === item._id || (item.availableQuantity || 0) <= 0}
+                  className={`px-3 py-2 text-white text-sm font-medium rounded-lg shadow-md hover:shadow-lg transition-all ${
+                    item.availableQuantity > 0
+                      ? "bg-gradient-to-r from-green-500 to-emerald-600 hover:brightness-110"
+                      : "bg-gray-400 cursor-not-allowed"
+                  }`}
+                >
+                  {item.availableQuantity > 0
+                    ? importingId === item._id
+                      ? "Importing..."
+                      : "Re-Import"
+                    : "Out of Stock"}
+                </motion.button>
+              </div>
             </div>
           </motion.div>
         ))}
       </div>
+
       <ToastContainer position="bottom-right" />
     </div>
   );

@@ -137,7 +137,7 @@ const MyExports = () => {
                 <span className="font-semibold">{item.availableQuantity}</span>
               </p>
               <p className="text-lg font-bold text-blue-600 mt-3">
-                ৳ {item.price}
+                $ {item.price}
               </p>
 
               <div className="flex justify-between mt-5">
