@@ -90,8 +90,8 @@ const MyExports = () => {
 
   if (!user)
     return (
-      <div className="text-center mt-20">
-        <h2 className="text-xl font-semibold text-gray-800">
+      <div className="text-center mt-20 px-4">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
           Please log in to view your exports.
         </h2>
       </div>
@@ -99,57 +99,58 @@ const MyExports = () => {
 
   if (exports.length === 0)
     return (
-      <div className="text-center mt-20">
-        <h2 className="text-3xl font-bold text-gray-800 mb-3">My Exports</h2>
+      <div className="text-center mt-20 px-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
+          My Exports
+        </h2>
         <p className="text-gray-500">No exports found yet.</p>
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-24 px-6">
-      <h2 className="text-3xl font-extrabold text-center mb-10 text-gray-800 tracking-wide">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-20 sm:pt-24 px-4 sm:px-6 lg:px-12">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-10 text-gray-800 tracking-wide">
         My Exported Products
       </h2>
 
-      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl mx-auto">
+      {/* Responsive Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto">
         {exports.map((item) => (
           <div
             key={item._id}
-            className="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            className="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col"
           >
             <img
               src={item.image}
               alt={item.productName}
-              className="w-full h-48 object-cover rounded-t-2xl"
+              className="w-full h-48 sm:h-52 md:h-56 lg:h-60 object-cover rounded-t-2xl"
             />
-            <div className="p-5">
-              <h3 className="font-semibold text-lg text-gray-800 mb-1">
-                {item.productName}
-              </h3>
-              <p className="text-sm text-gray-500 mb-2">
-                🌍 {item.originCountry}
-              </p>
-              <p className="text-sm text-gray-600 mb-1">
-                ⭐ Rating: <span className="font-semibold">{item.rating}</span>
-              </p>
-              <p className="text-sm text-gray-600 mb-1">
-                📦 Quantity:{" "}
-                <span className="font-semibold">{item.availableQuantity}</span>
-              </p>
-              <p className="text-lg font-bold text-blue-600 mt-3">
-                $ {item.price}
-              </p>
+            <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="font-semibold text-lg sm:text-xl text-gray-800 mb-1">
+                  {item.productName}
+                </h3>
+                <p className="text-sm text-gray-500 mb-1">🌍 {item.originCountry}</p>
+                <p className="text-sm text-gray-600 mb-1">
+                  ⭐ Rating: <span className="font-semibold">{item.rating}</span>
+                </p>
+                <p className="text-sm text-gray-600 mb-1">
+                  📦 Quantity:{" "}
+                  <span className="font-semibold">{item.availableQuantity}</span>
+                </p>
+                <p className="text-lg font-bold text-blue-600 mt-3">$ {item.price}</p>
+              </div>
 
-              <div className="flex justify-between mt-5">
+              <div className="flex justify-between mt-5 gap-3">
                 <button
                   onClick={() => handleEdit(item)}
-                  className="px-4 py-1.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
+                  className="w-1/2 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-300 text-sm sm:text-base"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(item._id)}
-                  className="px-4 py-1.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg font-medium hover:from-red-600 hover:to-red-700 transition-all duration-300"
+                  className="w-1/2 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg font-medium hover:from-red-600 hover:to-red-700 transition-all duration-300 text-sm sm:text-base"
                 >
                   Delete
                 </button>
@@ -161,9 +162,9 @@ const MyExports = () => {
 
       {/* ✳️ Update Modal */}
       {editing && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white w-full max-w-lg rounded-2xl p-8 shadow-2xl animate-fadeIn">
-            <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+          <div className="bg-white w-full max-w-lg rounded-2xl p-6 sm:p-8 shadow-2xl animate-fadeIn max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-center mb-6 text-gray-800">
               ✏️ Update Product
             </h2>
 
@@ -187,23 +188,23 @@ const MyExports = () => {
                     onChange={(e) =>
                       setEditData({ ...editData, [field.name]: e.target.value })
                     }
-                    className="w-full border border-gray-300 text-green-800 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 p-2.5 rounded-lg outline-none transition"
+                    className="w-full border border-gray-300 text-gray-800 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 p-2.5 rounded-lg outline-none transition text-sm sm:text-base"
                     required
                   />
                 </div>
               ))}
 
-              <div className="flex justify-between mt-6">
+              <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-5 mt-6">
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-medium hover:from-green-600 hover:to-green-700 transition-all duration-300"
+                  className="flex-1 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-medium hover:from-green-600 hover:to-green-700 transition-all duration-300"
                 >
                   Save Changes
                 </button>
                 <button
                   type="button"
                   onClick={() => setEditing(null)}
-                  className="px-5 py-2 bg-gray-400 text-white rounded-lg font-medium hover:bg-gray-500 transition-all duration-300"
+                  className="flex-1 py-2 bg-gray-400 text-white rounded-lg font-medium hover:bg-gray-500 transition-all duration-300"
                 >
                   Cancel
                 </button>
