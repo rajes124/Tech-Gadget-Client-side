@@ -112,12 +112,12 @@ const MyImports = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-20 px-6">
-      <h2 className="text-3xl font-bold mb-10 text-center bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+    <div className="max-w-6xl mx-auto py-20 px-4 sm:px-6 lg:px-8">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-10 text-center bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
         My Imports
       </h2>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {imports.map((item, i) => (
           <motion.div
             key={item._id}
@@ -141,30 +141,30 @@ const MyImports = () => {
                   transition={{ duration: 0.4 }}
                   src={item.image}
                   alt={item.name || item.productName}
-                  className="w-full h-40 object-cover rounded-xl"
+                  className="w-full h-36 sm:h-40 md:h-44 object-cover rounded-xl"
                 />
               </div>
 
               {/* Info */}
               <div className="flex flex-col flex-grow text-gray-800">
-                <h3 className="text-lg font-semibold mb-1 line-clamp-1">
+                <h3 className="text-base sm:text-lg font-semibold mb-1 line-clamp-1">
                   {item.name || item.productName}
                 </h3>
-                <p className="text-sm"><strong>💰 Price:</strong> ${item.price}</p>
-                <p className="text-sm"><strong>⭐ Rating:</strong> {item.rating}</p>
-                <p className="text-sm">
+                <p className="text-xs sm:text-sm"><strong>💰 Price:</strong> ${item.price}</p>
+                <p className="text-xs sm:text-sm"><strong>⭐ Rating:</strong> {item.rating}</p>
+                <p className="text-xs sm:text-sm">
                   <strong>🌍 Origin:</strong> {flags[(item.originCountry || "").toLowerCase()] || "🌐"} {item.originCountry}
                 </p>
-                <p className="text-sm"><strong>📦 Imported:</strong> {item.importedQuantity}</p>
-                <p className="text-sm"><strong>🛒 Available:</strong> {item.availableQuantity || 0}</p>
+                <p className="text-xs sm:text-sm"><strong>📦 Imported:</strong> {item.importedQuantity}</p>
+                <p className="text-xs sm:text-sm"><strong>🛒 Available:</strong> {item.availableQuantity || 0}</p>
               </div>
 
               {/* Buttons */}
-              <div className="mt-3 flex flex-col gap-2">
+              <div className="mt-3 flex flex-col sm:flex-row sm:justify-between gap-2">
                 <motion.button
                   whileTap={{ scale: 0.96 }}
                   onClick={() => handleRemove(item._id)}
-                  className="px-3 py-2 bg-gradient-to-r from-red-500 to-pink-600 text-white text-sm font-medium rounded-lg shadow-md 
+                  className="flex-1 px-3 py-2 bg-gradient-to-r from-red-500 to-pink-600 text-white text-xs sm:text-sm font-medium rounded-lg shadow-md 
                              hover:shadow-lg hover:brightness-110 transition-all"
                 >
                   Remove
@@ -173,7 +173,7 @@ const MyImports = () => {
                 <motion.button
                   whileTap={{ scale: 0.96 }}
                   onClick={() => navigate(`/product/${item._id}`)}
-                  className="px-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm font-medium rounded-lg shadow-md 
+                  className="flex-1 px-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-xs sm:text-sm font-medium rounded-lg shadow-md 
                              hover:shadow-lg hover:brightness-110 transition-all"
                 >
                   See Details
@@ -183,7 +183,7 @@ const MyImports = () => {
                   whileTap={{ scale: 0.96 }}
                   onClick={() => handleReImport(item._id, item.availableQuantity || 0)}
                   disabled={importingId === item._id || (item.availableQuantity || 0) <= 0}
-                  className={`px-3 py-2 text-white text-sm font-medium rounded-lg shadow-md hover:shadow-lg transition-all ${
+                  className={`flex-1 px-3 py-2 text-white text-xs sm:text-sm font-medium rounded-lg shadow-md hover:shadow-lg transition-all ${
                     item.availableQuantity > 0
                       ? "bg-gradient-to-r from-green-500 to-emerald-600 hover:brightness-110"
                       : "bg-gray-400 cursor-not-allowed"
