@@ -44,10 +44,12 @@ const Productcard = ({ product }) => {
         stiffness: 160,
         damping: 10,
       }}
-      className="bg-white rounded-3xl shadow-lg hover:shadow-2xl overflow-hidden w-[330px] h-[470px] flex flex-col justify-between transform-gpu transition-all duration-300 border border-gray-100"
+      className="bg-white rounded-3xl shadow-lg hover:shadow-2xl overflow-hidden 
+                 w-full sm:w-[260px] md:w-[300px] lg:w-[330px] 
+                 h-[450px] sm:h-[430px] md:h-[460px] flex flex-col justify-between transform-gpu transition-all duration-300 border border-gray-100 mx-auto"
     >
       {/* Product Image */}
-      <div className="relative h-60 overflow-hidden">
+      <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden">
         <img
           src={product.image}
           alt={product.name}
@@ -60,26 +62,26 @@ const Productcard = ({ product }) => {
       </div>
 
       {/* Product Info */}
-      <div className="p-7 flex flex-col flex-grow justify-between">
+      <div className="p-5 sm:p-6 flex flex-col flex-grow justify-between">
         <div>
-          {/* ✅ Product Name */}
-          <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1">
+          {/* Product Name */}
+          <h3 className="text-lg sm:text-xl md:text-xl font-bold text-gray-900 mb-2 line-clamp-1">
             {product.name}
           </h3>
 
-          {/* ✅ Price */}
-          <p className="text-gray-700 font-semibold mb-1">
+          {/* Price */}
+          <p className="text-gray-700 font-semibold mb-1 text-sm sm:text-base">
             💰 Price: ${product.price}
           </p>
 
-          {/* ✅ Origin Country */}
-          <p className="text-gray-600 text-sm flex items-center gap-2 mb-2">
+          {/* Origin Country */}
+          <p className="text-gray-600 text-xs sm:text-sm flex items-center gap-2 mb-2">
             {flag} {product.originCountry || "Unknown"}
           </p>
 
-          {/* ✅ Available Quantity */}
+          {/* Available Quantity */}
           <span
-            className={`inline-block px-3 py-1 rounded-full font-semibold text-xs ${
+            className={`inline-block px-2 sm:px-3 py-1 rounded-full font-semibold text-xs sm:text-sm ${
               product.availableQuantity > 50
                 ? "bg-green-100 text-green-800"
                 : product.availableQuantity > 20
@@ -91,12 +93,14 @@ const Productcard = ({ product }) => {
           </span>
         </div>
 
-        {/* ✅ “See Details” Button */}
-        <Link to={`/product/${product._id}`} className="mt-5">
+        {/* See Details Button */}
+        <Link to={`/product/${product._id}`} className="mt-4 sm:mt-5">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-blue-300 transition-all"
+            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 
+                       text-white py-2.5 sm:py-3 rounded-xl font-semibold shadow-lg 
+                       hover:shadow-blue-300 transition-all text-sm sm:text-base"
           >
             See Details
           </motion.button>
