@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  FaGlobeAsia,
-  FaHandshake,
-  FaShieldAlt,
-  FaTruck,
-  FaChevronDown,
-  FaStar,
-  FaUsers,
-  FaChartLine,
-  FaCheckCircle,
-  FaComment,
-  FaDownload,
-  FaStore,
-  FaUserPlus
-} from "react-icons/fa";
+import { FaGlobeAsia, FaHandshake, FaShieldAlt, FaTruck, FaStar, FaUsers, FaChartLine, FaCheckCircle, FaComment, FaDownload } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-
-
 import videoFile from "../assets/video.mp4";
-
 
 const Home = ({ theme }) => {
   const [products, setProducts] = useState([]);
@@ -609,154 +592,141 @@ const Home = ({ theme }) => {
         </div>
       </section>
 
-      {/* 8. Global Partners */}
-      <section className="py-20 sm:py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">
-            <span className={isDark ? "text-white" : "text-gray-900"}>Our</span>{" "}
-            <span className="text-transparent bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text">Global Partners</span>
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300">Proudly working with industry leaders</p>
-        </motion.div>
-        
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 sm:gap-12 items-center justify-items-center opacity-80 hover:opacity-100 transition-opacity">
-          {[
-            { src: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg", alt: "Amazon", width: 120 },
-            { src: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg", alt: "Apple", width: 80 },
-            { src: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg", alt: "Microsoft", width: 100 },
-            { src: "https://upload.wikimedia.org/wikipedia/commons/8/88/Alibaba_Group_Logo.png", alt: "Alibaba", width: 110 },
-            { src: "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg", alt: "Samsung", width: 90 }
-          ].map((partner, idx) => (
-            <motion.div
-              key={idx}
-              whileHover={{ scale: 1.15, y: -5, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="group p-4 sm:p-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl border border-white/50 dark:border-gray-700/50 transition-all duration-300"
-            >
-              <img
-                src={partner.src}
-                alt={partner.alt}
-                className="h-12 sm:h-14 md:h-16 max-w-full filter grayscale group-hover:grayscale-0 transition-all duration-500 mx-auto"
-                style={{ width: partner.width, height: partner.width * 0.4 }}
-              />
-            </motion.div>
-          ))}
+     {/* 8. Global Partners - Fixed Images + Improved Design */}
+<section className="py-20 sm:py-24 px-6 md:px-12 max-w-7xl mx-auto">
+  <motion.div 
+    initial={{ opacity: 0, y: 30 }} 
+    whileInView={{ opacity: 1, y: 0 }} 
+    transition={{ duration: 0.8 }}
+    className="text-center mb-16"
+  >
+    <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6">
+      <span className={isDark ? "text-white" : "text-gray-900"}>Our</span>{" "}
+      <span className="text-transparent bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text">
+        Global Partners
+      </span>
+    </h2>
+    <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-medium">
+      Proudly working with industry leaders
+    </p>
+  </motion.div>
+  
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 lg:gap-12 items-center justify-items-center">
+    {[
+      { 
+        name: "Amazon", 
+        light: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+        dark: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Amazon_logo_white.svg", // White version for dark mode
+        width: "w-32"
+      },
+      { 
+        name: "Apple", 
+        light: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+        dark: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_white.svg",
+        width: "w-20"
+      },
+      { 
+        name: "Microsoft", 
+        light: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+        dark: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo_white.svg",
+        width: "w-28"
+      },
+      { 
+        name: "Alibaba", 
+        light: "https://upload.wikimedia.org/wikipedia/commons/9/9e/Alibaba_Group_Logo.svg",
+        dark: "https://upload.wikimedia.org/wikipedia/commons/9/9e/Alibaba_Group_Logo_white.svg",
+        width: "w-32"
+      },
+      { 
+        name: "Samsung", 
+        light: "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg",
+        dark: "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo_white.svg",
+        width: "w-28"
+      }
+    ].map((partner, idx) => (
+      <motion.div
+        key={idx}
+        whileHover={{ scale: 1.15, y: -10 }}
+        transition={{ type: "spring", stiffness: 400, damping: 15 }}
+        className="group p-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-2xl border border-gray-200/50 dark:border-gray-700/50 transition-all duration-500"
+      >
+        <img
+          src={isDark ? partner.dark : partner.light}
+          alt={partner.name}
+          className={`mx-auto ${partner.width} h-auto object-contain filter drop-shadow-md group-hover:drop-shadow-2xl transition-all duration-500`}
+        />
+      </motion.div>
+    ))}
+  </div>
+</section>
+
+      {/* 9. CTA Newsletter Section */}
+      <section className={`py-20 sm:py-24 px-6 md:px-12 ${
+        isDark 
+          ? "bg-gradient-to-b from-gray-800 via-gray-900 to-black" 
+          : "bg-gradient-to-r from-blue-600 via-green-600 to-blue-700"
+      }`}>
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-3xl p-12 sm:p-16 md:p-20 shadow-2xl border border-white/30">
+            <FaDownload className="text-6xl sm:text-7xl md:text-8xl text-white/90 mx-auto mb-8 opacity-80" />
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 text-white drop-shadow-2xl">
+              Ready to Start Trading?
+            </h2>
+            <p className="text-xl sm:text-2xl text-blue-100/90 mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+              Join 45K+ traders. Get exclusive deals on latest tech gadgets.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <Link
+                to="/all-products"
+                className="flex-1 bg-white text-blue-600 dark:text-blue-700 font-bold py-4 px-8 rounded-2xl text-lg shadow-2xl hover:shadow-3xl hover:-translate-y-1 transition-all duration-300 hover:bg-blue-50"
+              >
+                🚀 Start Browsing
+              </Link>
+              <Link
+                to="/register"
+                className="flex-1 border-2 border-white text-white font-bold py-4 px-8 rounded-2xl text-lg hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              >
+                📝 Sign Up Free
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-   {/* 9. CTA Newsletter Section */}
-<section
-  className={`py-20 sm:py-24 px-6 md:px-12 transition-colors duration-500 ${
-    isDark
-      ? "bg-gradient-to-b from-gray-800 via-gray-900 to-black"
-      : "bg-gradient-to-r from-blue-600 via-green-600 to-blue-700"
-  }`}
->
-  <div className="max-w-4xl mx-auto text-center">
-    <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-3xl p-12 sm:p-16 md:p-20 shadow-2xl border border-white/30"
-    >
-      {/* Icon */}
-      <FaDownload className="text-6xl sm:text-7xl md:text-8xl text-white/90 mx-auto mb-8 opacity-80" />
-
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 text-white">
-        Ready to Start Trading?
-      </h2>
-
-      <p className="text-xl sm:text-2xl text-blue-100/90 mb-10 max-w-2xl mx-auto">
-        Join 45K+ traders and get exclusive tech deals.
-      </p>
-
-      <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-        <Link
-          to="/all-products"
-          className="flex items-center justify-center gap-3 flex-1
-          bg-white text-blue-600 font-bold py-4 px-8 rounded-2xl text-lg
-          shadow-2xl hover:-translate-y-1 transition-all"
-        >
-          <FaStore />
-          Start Browsing
-        </Link>
-
-        <Link
-          to="/register"
-          className="flex items-center justify-center gap-3 flex-1
-          border-2 border-white text-white font-bold py-4 px-8 rounded-2xl
-          hover:bg-white/20 transition-all"
-        >
-          <FaUserPlus />
-          Sign Up Free
-        </Link>
-      </div>
-    </motion.div>
-  </div>
-</section>
-
-
-
-{/* 10. FAQ Section */}
-<section className="py-20 sm:py-24 px-6 md:px-12 bg-white dark:bg-gray-950 transition-colors duration-500">
-  <div className="max-w-5xl mx-auto">
-    
-    {/* Heading */}
-    <motion.h2
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="text-3xl sm:text-4xl md:text-5xl font-black text-center mb-14
-      text-gray-900 dark:text-white"
-    >
-      Frequently Asked Questions
-    </motion.h2>
-
-    {/* FAQ Grid */}
-    <div className="grid md:grid-cols-2 gap-8">
-      {[
-        {
-          q: "How fast is delivery?",
-          a: "Delivery usually takes 3–7 business days worldwide via DHL or FedEx."
-        },
-        {
-          q: "Is the platform secure?",
-          a: "Yes, we use advanced encryption, secure servers, and fraud protection."
-        },
-        {
-          q: "What payment methods are supported?",
-          a: "Pay using PayPal, Stripe, Bank Transfer, or Cryptocurrency."
-        },
-        {
-          q: "Can I export from Bangladesh?",
-          a: "Absolutely! You can export products to more than 100 countries."
-        }
-      ].map((faq, idx) => (
-        <motion.div
-          key={idx}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: idx * 0.1 }}
-          className="rounded-2xl p-8 border
-            bg-gray-50 border-gray-200
-            dark:bg-gray-900 dark:border-gray-800
-            shadow-md hover:shadow-xl
-            transition-all duration-300 hover:-translate-y-1"
-        >
-          <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
-            {faq.q}
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-            {faq.a}
-          </p>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
-
-
-
+      {/* 10. FAQ Section */}
+      <section className="py-20 sm:py-24 px-6 md:px-12 bg-gray-50 dark:bg-gray-900/50">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-black text-center mb-6 bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent dark:from-white"
+          >
+            Frequently Asked Questions
+          </motion.h2>
+          
+          <div className="grid md:grid-cols-2 gap-6 mt-16">
+            {[
+              { q: "How fast is delivery?", a: "3-7 days worldwide via DHL/FedEx partners." },
+              { q: "Is the platform secure?", a: "100% secure with end-to-end encryption & fraud protection." },
+              { q: "What payment methods?", a: "PayPal, Stripe, Bank Transfer, Crypto (BTC/ETH)." },
+              { q: "Can I export from Bangladesh?", a: "Yes! Export to 100+ countries hassle-free." }
+            ].map((faq, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 transition-all duration-400 cursor-pointer hover:-translate-y-2"
+              >
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {faq.q}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{faq.a}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
     </div>
   );

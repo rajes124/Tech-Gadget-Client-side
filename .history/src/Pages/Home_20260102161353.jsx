@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  FaGlobeAsia,
-  FaHandshake,
-  FaShieldAlt,
-  FaTruck,
-  FaChevronDown,
-  FaStar,
-  FaUsers,
-  FaChartLine,
-  FaCheckCircle,
-  FaComment,
-  FaDownload,
-  FaStore,
-  FaUserPlus
-} from "react-icons/fa";
+import { FaGlobeAsia, FaHandshake, FaShieldAlt, FaTruck, FaStar, FaUsers, FaChartLine, FaCheckCircle, FaComment, FaDownload } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-
-
 import videoFile from "../assets/video.mp4";
-
 
 const Home = ({ theme }) => {
   const [products, setProducts] = useState([]);
@@ -461,113 +444,117 @@ const Home = ({ theme }) => {
   </div>
 </section>
 
- {/* 6. Testimonials Carousel - Clean White in Light, Pure Black in Dark */}
-<section className="py-24 sm:py-32 px-6 md:px-12 bg-white dark:bg-black relative overflow-hidden">
-  {/* Very subtle overlay for depth - won't make it dark in light mode */}
-  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/20 to-transparent dark:via-blue-900/10"></div>
-
+     {/* 6. Testimonials Carousel - Next Level Design */}
+<section className="py-20 sm:py-32 px-6 md:px-12 overflow-hidden relative">
+  {/* Background - Fixed for both modes */}
+  <div className="absolute inset-0 bg-gradient-to-b from-white via-blue-50/50 to-white dark:from-black dark:via-blue-900/20 dark:to-black"></div>
+  
   <div className="relative max-w-7xl mx-auto">
     {/* Title */}
     <motion.div 
-      initial={{ opacity: 0, y: 40 }} 
+      initial={{ opacity: 0, y: 30 }} 
       whileInView={{ opacity: 1, y: 0 }} 
-      transition={{ duration: 0.8 }}
-      className="text-center mb-24"
+      className="text-center mb-20"
     >
-      <h2 className="text-5xl sm:text-6xl md:text-7xl font-black mb-8 leading-tight">
-        <span className="bg-gradient-to-r from-gray-800 via-blue-600 to-green-600 dark:from-white dark:via-blue-400 dark:to-green-400 bg-clip-text text-transparent">
+      <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6">
+        <span className="bg-gradient-to-r from-gray-900 via-blue-600 to-green-600 dark:from-white dark:via-blue-400 dark:to-green-400 bg-clip-text text-transparent">
           What Our Traders Say
         </span>
       </h2>
-      <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-medium max-w-3xl mx-auto">
+      <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-medium">
         45K+ satisfied customers sharing their success stories
       </p>
     </motion.div>
 
-    {/* Carousel */}
+    {/* Carousel Container */}
     <div className="relative">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentTestimonial}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          exit={{ opacity: 0, y: -40 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          className="relative"
         >
-          {/* Clean Card - White in Light, Dark in Dark */}
-          <div className="bg-white dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl md:rounded-4xl p-12 sm:p-16 md:p-24 shadow-2xl border border-gray-200 dark:border-gray-800 mx-auto max-w-5xl">
+          {/* Main Testimonial Card - Premium Glassmorphism */}
+          <div className="bg-white/60 dark:bg-gray-900/60 backdrop-blur-2xl rounded-3xl p-10 sm:p-14 md:p-20 shadow-3xl border border-white/50 dark:border-gray-700/70 mx-auto max-w-4xl">
             {/* Stars */}
-            <div className="flex justify-center mb-10">
+            <div className="flex justify-center mb-8">
               {[...Array(testimonials[currentTestimonial]?.rating || 5)].map((_, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
                   transition={{ delay: i * 0.1 }}
                 >
-                  <FaStar className="text-5xl text-yellow-400 drop-shadow-md mx-1 fill-current" />
+                  <FaStar className="text-4xl text-yellow-400 drop-shadow-lg mx-1 fill-current" />
                 </motion.div>
               ))}
             </div>
 
             {/* Quote */}
-            <blockquote className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-gray-800 dark:text-gray-100 leading-relaxed mb-16 px-4">
+            <blockquote className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center text-gray-800 dark:text-gray-100 leading-relaxed mb-12">
               "{testimonials[currentTestimonial]?.text}"
             </blockquote>
 
             {/* Author */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
+            <div className="flex items-center justify-center gap-6">
               <motion.div
-                initial={{ scale: 0.9 }}
+                initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
                 className="relative"
               >
                 <img 
-                  src={`https://i.pravatar.cc/140?img=${currentTestimonial + 1}`} 
+                  src={`https://i.pravatar.cc/120?img=${currentTestimonial + 1}`} 
                   alt={testimonials[currentTestimonial]?.name}
-                  className="w-32 h-32 md:w-36 md:h-36 rounded-full border-8 border-white dark:border-gray-900 shadow-2xl"
+                  className="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white dark:border-gray-700 shadow-2xl"
                 />
-                <div className="absolute bottom-0 right-0 bg-gradient-to-r from-blue-500 to-green-500 rounded-full p-3 shadow-xl">
-                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <div className="absolute -bottom-2 -right-2 bg-green-500 rounded-full p-2 shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
               </motion.div>
-
-              <div className="text-center sm:text-left">
-                <h4 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">
+              <div className="text-center md:text-left">
+                <h4 className="text-2xl font-bold text-gray-900 dark:text-white">
                   {testimonials[currentTestimonial]?.name}
                 </h4>
-                <p className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+                <p className="text-lg font-medium text-blue-600 dark:text-blue-400">
                   {testimonials[currentTestimonial]?.role}
                 </p>
               </div>
             </div>
           </div>
+
+          {/* Decorative floating elements */}
+          <div className="absolute -top-10 -left-10 w-32 h-32 bg-blue-400/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-green-400/10 rounded-full blur-3xl"></div>
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation Dots */}
-      <div className="flex justify-center gap-4 mt-16">
+      {/* Navigation Dots - Premium Style */}
+      <div className="flex justify-center gap-3 mt-12">
         {testimonials.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setCurrentTestimonial(idx)}
-            className="relative group"
+            className="group relative"
           >
-            <span className={`block w-4 h-4 rounded-full transition-all duration-500 shadow-md ${
+            <span className={`block w-3 h-3 rounded-full transition-all duration-500 ${
               idx === currentTestimonial 
-                ? "bg-gradient-to-r from-blue-600 to-green-600 scale-150" 
-                : "bg-gray-300 dark:bg-gray-600 group-hover:scale-125"
+                ? "bg-gradient-to-r from-blue-600 to-green-600 scale-150 shadow-2xl" 
+                : "bg-gray-400/50 dark:bg-gray-600/50 group-hover:bg-gray-500"
             }`} />
             {idx === currentTestimonial && (
-              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-green-500 animate-ping opacity-60" />
+              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-green-600 animate-ping opacity-75" />
             )}
           </button>
         ))}
       </div>
 
-      <p className="text-center mt-10 text-gray-500 dark:text-gray-500 text-sm font-medium">
+      {/* Optional Auto-play indicator */}
+      <p className="text-center mt-8 text-sm text-gray-500 dark:text-gray-500">
         Auto-advances every 8 seconds
       </p>
     </div>
@@ -644,119 +631,73 @@ const Home = ({ theme }) => {
         </div>
       </section>
 
-   {/* 9. CTA Newsletter Section */}
-<section
-  className={`py-20 sm:py-24 px-6 md:px-12 transition-colors duration-500 ${
-    isDark
-      ? "bg-gradient-to-b from-gray-800 via-gray-900 to-black"
-      : "bg-gradient-to-r from-blue-600 via-green-600 to-blue-700"
-  }`}
->
-  <div className="max-w-4xl mx-auto text-center">
-    <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-3xl p-12 sm:p-16 md:p-20 shadow-2xl border border-white/30"
-    >
-      {/* Icon */}
-      <FaDownload className="text-6xl sm:text-7xl md:text-8xl text-white/90 mx-auto mb-8 opacity-80" />
+      {/* 9. CTA Newsletter Section */}
+      <section className={`py-20 sm:py-24 px-6 md:px-12 ${
+        isDark 
+          ? "bg-gradient-to-b from-gray-800 via-gray-900 to-black" 
+          : "bg-gradient-to-r from-blue-600 via-green-600 to-blue-700"
+      }`}>
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-3xl p-12 sm:p-16 md:p-20 shadow-2xl border border-white/30">
+            <FaDownload className="text-6xl sm:text-7xl md:text-8xl text-white/90 mx-auto mb-8 opacity-80" />
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 text-white drop-shadow-2xl">
+              Ready to Start Trading?
+            </h2>
+            <p className="text-xl sm:text-2xl text-blue-100/90 mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+              Join 45K+ traders. Get exclusive deals on latest tech gadgets.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <Link
+                to="/all-products"
+                className="flex-1 bg-white text-blue-600 dark:text-blue-700 font-bold py-4 px-8 rounded-2xl text-lg shadow-2xl hover:shadow-3xl hover:-translate-y-1 transition-all duration-300 hover:bg-blue-50"
+              >
+                🚀 Start Browsing
+              </Link>
+              <Link
+                to="/register"
+                className="flex-1 border-2 border-white text-white font-bold py-4 px-8 rounded-2xl text-lg hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              >
+                📝 Sign Up Free
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 text-white">
-        Ready to Start Trading?
-      </h2>
-
-      <p className="text-xl sm:text-2xl text-blue-100/90 mb-10 max-w-2xl mx-auto">
-        Join 45K+ traders and get exclusive tech deals.
-      </p>
-
-      <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-        <Link
-          to="/all-products"
-          className="flex items-center justify-center gap-3 flex-1
-          bg-white text-blue-600 font-bold py-4 px-8 rounded-2xl text-lg
-          shadow-2xl hover:-translate-y-1 transition-all"
-        >
-          <FaStore />
-          Start Browsing
-        </Link>
-
-        <Link
-          to="/register"
-          className="flex items-center justify-center gap-3 flex-1
-          border-2 border-white text-white font-bold py-4 px-8 rounded-2xl
-          hover:bg-white/20 transition-all"
-        >
-          <FaUserPlus />
-          Sign Up Free
-        </Link>
-      </div>
-    </motion.div>
-  </div>
-</section>
-
-
-
-{/* 10. FAQ Section */}
-<section className="py-20 sm:py-24 px-6 md:px-12 bg-white dark:bg-gray-950 transition-colors duration-500">
-  <div className="max-w-5xl mx-auto">
-    
-    {/* Heading */}
-    <motion.h2
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="text-3xl sm:text-4xl md:text-5xl font-black text-center mb-14
-      text-gray-900 dark:text-white"
-    >
-      Frequently Asked Questions
-    </motion.h2>
-
-    {/* FAQ Grid */}
-    <div className="grid md:grid-cols-2 gap-8">
-      {[
-        {
-          q: "How fast is delivery?",
-          a: "Delivery usually takes 3–7 business days worldwide via DHL or FedEx."
-        },
-        {
-          q: "Is the platform secure?",
-          a: "Yes, we use advanced encryption, secure servers, and fraud protection."
-        },
-        {
-          q: "What payment methods are supported?",
-          a: "Pay using PayPal, Stripe, Bank Transfer, or Cryptocurrency."
-        },
-        {
-          q: "Can I export from Bangladesh?",
-          a: "Absolutely! You can export products to more than 100 countries."
-        }
-      ].map((faq, idx) => (
-        <motion.div
-          key={idx}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: idx * 0.1 }}
-          className="rounded-2xl p-8 border
-            bg-gray-50 border-gray-200
-            dark:bg-gray-900 dark:border-gray-800
-            shadow-md hover:shadow-xl
-            transition-all duration-300 hover:-translate-y-1"
-        >
-          <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
-            {faq.q}
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-            {faq.a}
-          </p>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
-
-
-
+      {/* 10. FAQ Section */}
+      <section className="py-20 sm:py-24 px-6 md:px-12 bg-gray-50 dark:bg-gray-900/50">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-black text-center mb-6 bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent dark:from-white"
+          >
+            Frequently Asked Questions
+          </motion.h2>
+          
+          <div className="grid md:grid-cols-2 gap-6 mt-16">
+            {[
+              { q: "How fast is delivery?", a: "3-7 days worldwide via DHL/FedEx partners." },
+              { q: "Is the platform secure?", a: "100% secure with end-to-end encryption & fraud protection." },
+              { q: "What payment methods?", a: "PayPal, Stripe, Bank Transfer, Crypto (BTC/ETH)." },
+              { q: "Can I export from Bangladesh?", a: "Yes! Export to 100+ countries hassle-free." }
+            ].map((faq, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 transition-all duration-400 cursor-pointer hover:-translate-y-2"
+              >
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {faq.q}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{faq.a}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
     </div>
   );

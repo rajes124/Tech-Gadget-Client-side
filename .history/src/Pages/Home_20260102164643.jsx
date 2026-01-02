@@ -698,7 +698,7 @@ const Home = ({ theme }) => {
 
 
 {/* 10. FAQ Section */}
-<section className="py-20 sm:py-24 px-6 md:px-12 bg-white dark:bg-gray-950 transition-colors duration-500">
+<section className="py-20 sm:py-24 px-6 md:px-12 bg-green-700 dark:bg-gray-150 transition-colors duration-500">
   <div className="max-w-5xl mx-auto">
     
     {/* Heading */}

@@ -5,7 +5,6 @@ import {
   FaHandshake,
   FaShieldAlt,
   FaTruck,
-  FaChevronDown,
   FaStar,
   FaUsers,
   FaChartLine,
@@ -697,56 +696,89 @@ const Home = ({ theme }) => {
 
 
 
-{/* 10. FAQ Section */}
-<section className="py-20 sm:py-24 px-6 md:px-12 bg-white dark:bg-gray-950 transition-colors duration-500">
+   {/* 10. FAQ Section – Redesigned */}
+<section
+  className={`py-20 sm:py-24 px-6 md:px-12 transition-colors duration-500
+    bg-gradient-to-br from-slate-100 via-white to-blue-50
+    dark:from-gray-950 dark:via-gray-900 dark:to-gray-800`}
+>
   <div className="max-w-5xl mx-auto">
-    
+
     {/* Heading */}
-    <motion.h2
+    <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="text-3xl sm:text-4xl md:text-5xl font-black text-center mb-14
-      text-gray-900 dark:text-white"
+      className="text-center mb-16"
     >
-      Frequently Asked Questions
-    </motion.h2>
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4
+        text-gray-900 dark:text-white">
+        Frequently Asked Questions
+      </h2>
+      <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        Everything you need to know about our import & export platform
+      </p>
+    </motion.div>
 
-    {/* FAQ Grid */}
+    {/* FAQ Cards */}
     <div className="grid md:grid-cols-2 gap-8">
       {[
         {
           q: "How fast is delivery?",
-          a: "Delivery usually takes 3–7 business days worldwide via DHL or FedEx."
+          a: "Worldwide delivery takes 3–7 business days via trusted DHL & FedEx partners."
         },
         {
           q: "Is the platform secure?",
-          a: "Yes, we use advanced encryption, secure servers, and fraud protection."
+          a: "Yes. We use enterprise-grade encryption, secure payments and fraud detection."
         },
         {
           q: "What payment methods are supported?",
-          a: "Pay using PayPal, Stripe, Bank Transfer, or Cryptocurrency."
+          a: "Pay with PayPal, Stripe, Bank Transfer or Crypto (BTC & ETH)."
         },
         {
-          q: "Can I export from Bangladesh?",
-          a: "Absolutely! You can export products to more than 100 countries."
+          q: "Can I export products from Bangladesh?",
+          a: "Absolutely! Export to over 100+ countries with full documentation support."
         }
       ].map((faq, idx) => (
         <motion.div
           key={idx}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: idx * 0.1 }}
-          className="rounded-2xl p-8 border
-            bg-gray-50 border-gray-200
-            dark:bg-gray-900 dark:border-gray-800
-            shadow-md hover:shadow-xl
-            transition-all duration-300 hover:-translate-y-1"
+          transition={{ delay: idx * 0.12 }}
+          className="
+            relative overflow-hidden
+            bg-white/70 dark:bg-gray-800/70
+            backdrop-blur-xl
+            rounded-3xl p-8
+            shadow-lg hover:shadow-2xl
+            border border-gray-200/50 dark:border-gray-700/50
+            transition-all duration-500
+            hover:-translate-y-2
+            group
+          "
         >
-          <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+          {/* Accent Bar */}
+          <span
+            className="
+              absolute left-0 top-0 h-full w-1
+              bg-gradient-to-b from-blue-600 to-green-500
+              scale-y-0 group-hover:scale-y-100
+              transition-transform duration-500 origin-top
+            "
+          />
+
+          <h3
+            className="
+              text-xl font-bold mb-4
+              text-gray-900 dark:text-white
+              group-hover:text-blue-600 dark:group-hover:text-blue-400
+              transition-colors
+            "
+          >
             {faq.q}
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
             {faq.a}
           </p>
         </motion.div>
@@ -754,8 +786,6 @@ const Home = ({ theme }) => {
     </div>
   </div>
 </section>
-
-
 
 
     </div>

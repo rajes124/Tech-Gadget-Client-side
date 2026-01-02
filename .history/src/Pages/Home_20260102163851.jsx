@@ -5,7 +5,6 @@ import {
   FaHandshake,
   FaShieldAlt,
   FaTruck,
-  FaChevronDown,
   FaStar,
   FaUsers,
   FaChartLine,
@@ -644,7 +643,7 @@ const Home = ({ theme }) => {
         </div>
       </section>
 
-   {/* 9. CTA Newsletter Section */}
+     {/* 9. CTA Newsletter Section */}
 <section
   className={`py-20 sm:py-24 px-6 md:px-12 transition-colors duration-500 ${
     isDark
@@ -656,38 +655,48 @@ const Home = ({ theme }) => {
     <motion.div
       initial={{ scale: 0.9, opacity: 0 }}
       whileInView={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className="bg-white/20 dark:bg-white/10 backdrop-blur-xl rounded-3xl p-12 sm:p-16 md:p-20 shadow-2xl border border-white/30"
     >
       {/* Icon */}
       <FaDownload className="text-6xl sm:text-7xl md:text-8xl text-white/90 mx-auto mb-8 opacity-80" />
 
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 text-white">
+      {/* Heading */}
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 text-white drop-shadow-2xl">
         Ready to Start Trading?
       </h2>
 
-      <p className="text-xl sm:text-2xl text-blue-100/90 mb-10 max-w-2xl mx-auto">
-        Join 45K+ traders and get exclusive tech deals.
+      {/* Subtitle */}
+      <p className="text-xl sm:text-2xl text-blue-100/90 mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
+        Join 45K+ traders and get exclusive deals on the latest tech gadgets.
       </p>
 
+      {/* CTA Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+        {/* Browse Products */}
         <Link
           to="/all-products"
           className="flex items-center justify-center gap-3 flex-1
-          bg-white text-blue-600 font-bold py-4 px-8 rounded-2xl text-lg
-          shadow-2xl hover:-translate-y-1 transition-all"
+            bg-white text-blue-600 dark:text-blue-700
+            font-bold py-4 px-8 rounded-2xl text-lg
+            shadow-2xl hover:shadow-3xl
+            hover:-translate-y-1 transition-all duration-300
+            hover:bg-blue-50"
         >
-          <FaStore />
+          <FaStore className="text-xl" />
           Start Browsing
         </Link>
 
+        {/* Sign Up */}
         <Link
           to="/register"
           className="flex items-center justify-center gap-3 flex-1
-          border-2 border-white text-white font-bold py-4 px-8 rounded-2xl
-          hover:bg-white/20 transition-all"
+            border-2 border-white text-white
+            font-bold py-4 px-8 rounded-2xl text-lg
+            hover:bg-white/20 backdrop-blur-sm
+            transition-all duration-300 hover:scale-105"
         >
-          <FaUserPlus />
+          <FaUserPlus className="text-xl" />
           Sign Up Free
         </Link>
       </div>
@@ -696,67 +705,40 @@ const Home = ({ theme }) => {
 </section>
 
 
-
-{/* 10. FAQ Section */}
-<section className="py-20 sm:py-24 px-6 md:px-12 bg-white dark:bg-gray-950 transition-colors duration-500">
-  <div className="max-w-5xl mx-auto">
-    
-    {/* Heading */}
-    <motion.h2
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="text-3xl sm:text-4xl md:text-5xl font-black text-center mb-14
-      text-gray-900 dark:text-white"
-    >
-      Frequently Asked Questions
-    </motion.h2>
-
-    {/* FAQ Grid */}
-    <div className="grid md:grid-cols-2 gap-8">
-      {[
-        {
-          q: "How fast is delivery?",
-          a: "Delivery usually takes 3–7 business days worldwide via DHL or FedEx."
-        },
-        {
-          q: "Is the platform secure?",
-          a: "Yes, we use advanced encryption, secure servers, and fraud protection."
-        },
-        {
-          q: "What payment methods are supported?",
-          a: "Pay using PayPal, Stripe, Bank Transfer, or Cryptocurrency."
-        },
-        {
-          q: "Can I export from Bangladesh?",
-          a: "Absolutely! You can export products to more than 100 countries."
-        }
-      ].map((faq, idx) => (
-        <motion.div
-          key={idx}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: idx * 0.1 }}
-          className="rounded-2xl p-8 border
-            bg-gray-50 border-gray-200
-            dark:bg-gray-900 dark:border-gray-800
-            shadow-md hover:shadow-xl
-            transition-all duration-300 hover:-translate-y-1"
-        >
-          <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
-            {faq.q}
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-            {faq.a}
-          </p>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
-
-
-
+      {/* 10. FAQ Section */}
+      <section className="py-20 sm:py-24 px-6 md:px-12 bg-gray-50 dark:bg-gray-900/50">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-black text-center mb-6 bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent dark:from-white"
+          >
+            Frequently Asked Questions
+          </motion.h2>
+          
+          <div className="grid md:grid-cols-2 gap-6 mt-16">
+            {[
+              { q: "How fast is delivery?", a: "3-7 days worldwide via DHL/FedEx partners." },
+              { q: "Is the platform secure?", a: "100% secure with end-to-end encryption & fraud protection." },
+              { q: "What payment methods?", a: "PayPal, Stripe, Bank Transfer, Crypto (BTC/ETH)." },
+              { q: "Can I export from Bangladesh?", a: "Yes! Export to 100+ countries hassle-free." }
+            ].map((faq, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 dark:border-gray-700 transition-all duration-400 cursor-pointer hover:-translate-y-2"
+              >
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {faq.q}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{faq.a}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
     </div>
   );

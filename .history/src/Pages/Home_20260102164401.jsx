@@ -699,7 +699,7 @@ const Home = ({ theme }) => {
 
 {/* 10. FAQ Section */}
 <section className="py-20 sm:py-24 px-6 md:px-12 bg-white dark:bg-gray-950 transition-colors duration-500">
-  <div className="max-w-5xl mx-auto">
+  <div className="max-w-4xl mx-auto">
     
     {/* Heading */}
     <motion.h2
@@ -712,49 +712,31 @@ const Home = ({ theme }) => {
       Frequently Asked Questions
     </motion.h2>
 
-    {/* FAQ Grid */}
-    <div className="grid md:grid-cols-2 gap-8">
+    {/* FAQ List */}
+    <div className="space-y-6">
       {[
         {
           q: "How fast is delivery?",
-          a: "Delivery usually takes 3–7 business days worldwide via DHL or FedEx."
+          a: "Delivery usually takes 3–7 business days worldwide via DHL & FedEx partners."
         },
         {
           q: "Is the platform secure?",
-          a: "Yes, we use advanced encryption, secure servers, and fraud protection."
+          a: "Yes. We use end-to-end encryption, secure payments, and fraud protection."
         },
         {
           q: "What payment methods are supported?",
-          a: "Pay using PayPal, Stripe, Bank Transfer, or Cryptocurrency."
+          a: "We support PayPal, Stripe, Bank Transfer, and Crypto (BTC / ETH)."
         },
         {
           q: "Can I export from Bangladesh?",
-          a: "Absolutely! You can export products to more than 100 countries."
+          a: "Absolutely. You can export products to 100+ countries smoothly."
         }
       ].map((faq, idx) => (
-        <motion.div
-          key={idx}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: idx * 0.1 }}
-          className="rounded-2xl p-8 border
-            bg-gray-50 border-gray-200
-            dark:bg-gray-900 dark:border-gray-800
-            shadow-md hover:shadow-xl
-            transition-all duration-300 hover:-translate-y-1"
-        >
-          <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
-            {faq.q}
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-            {faq.a}
-          </p>
-        </motion.div>
+        <FAQItem key={idx} faq={faq} />
       ))}
     </div>
   </div>
 </section>
-
 
 
 
