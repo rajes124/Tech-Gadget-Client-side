@@ -70,7 +70,7 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-gray-800 dark:text-white">Product Not Found</h2>
+          <h2 className="text-4xl font-bold text-gray-800 dark:text-gray-100">Product Not Found</h2>
           <Link to="/" className="mt-6 inline-block text-indigo-600 dark:text-indigo-400 hover:underline">
             ← Back to Home
           </Link>
@@ -79,7 +79,7 @@ const ProductDetails = () => {
     );
   }
 
-  const images = [product.image, product.image, product.image];
+  const images = [product.image, product.image, product.image]; // Real project-এ multiple images দিবে
   const nextImage = () => setCurrentImageIndex((prev) => (prev + 1) % images.length);
   const prevImage = () => setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
 
@@ -115,8 +115,10 @@ const ProductDetails = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-white dark:bg-black py-12 px-6">
+      {/* Page Background - White in Light, Black in Dark */}
+      <div className="min-h-screen bg-white dark:bg-black py-12 px-6 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
+          {/* Breadcrumb */}
           <nav className="text-sm text-gray-600 dark:text-gray-400 mb-8">
             <Link to="/" className="hover:text-indigo-600 dark:hover:text-indigo-400">Home</Link>
             <span className="mx-2">/</span>
@@ -125,12 +127,14 @@ const ProductDetails = () => {
             <span className="text-gray-900 dark:text-white">{product.name}</span>
           </nav>
 
+          {/* Main Card - White in Light, Black in Dark */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white dark:bg-black rounded-3xl shadow-2xl overflow-hidden border border-gray-300 dark:border-gray-700"
           >
-            <div className="relative">
+            {/* Image Gallery Section */}
+            <div className="relative bg-gray-100 dark:bg-gray-900">
               <motion.img
                 key={currentImageIndex}
                 initial={{ opacity: 0 }}
@@ -141,10 +145,16 @@ const ProductDetails = () => {
               />
               {images.length > 1 && (
                 <>
-                  <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full shadow-lg">
+                  <button
+                    onClick={prevImage}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-900/90 p-3 rounded-full shadow-lg"
+                  >
                     <ChevronLeft className="w-6 h-6 text-gray-900 dark:text-white" />
                   </button>
-                  <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full shadow-lg">
+                  <button
+                    onClick={nextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-900/90 p-3 rounded-full shadow-lg"
+                  >
                     <ChevronRight className="w-6 h-6 text-gray-900 dark:text-white" />
                   </button>
                 </>
@@ -154,7 +164,11 @@ const ProductDetails = () => {
                   <button
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`w-16 h-16 rounded-lg overflow-hidden border-4 ${idx === currentImageIndex ? "border-indigo-600 dark:border-indigo-500" : "border-transparent"}`}
+                    className={`w-16 h-16 rounded-lg overflow-hidden border-4 ${
+                      idx === currentImageIndex
+                        ? "border-indigo-600 dark:border-indigo-500"
+                        : "border-transparent"
+                    }`}
                   >
                     <img src={images[idx]} alt="" className="w-full h-full object-cover" />
                   </button>
@@ -162,6 +176,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
+            {/* Product Details */}
             <div className="p-8 lg:p-12 flex flex-col justify-between">
               <div>
                 <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -230,6 +245,7 @@ const ProductDetails = () => {
             </div>
           </motion.div>
 
+          {/* Related Products */}
           {relatedProducts.length > 0 && (
             <section className="mt-20">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Related Products</h2>
@@ -240,7 +256,7 @@ const ProductDetails = () => {
                     to={`/product/${rel._id}`}
                     className="bg-white dark:bg-black rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition border border-gray-300 dark:border-gray-700"
                   >
-                    <img src={rel.image} alt={rel.name} className="w-full h-48 object-cover rounded-t-2xl" />
+                    <img src={rel.image} alt={rel.name} className="w-full h-48 object-cover" />
                     <div className="p-6">
                       <h3 className="font-semibold text-lg text-gray-900 dark:text-white truncate">{rel.name}</h3>
                       <p className="text-indigo-600 dark:text-indigo-400 font-bold mt-3 text-xl">${rel.price}</p>
@@ -253,10 +269,21 @@ const ProductDetails = () => {
         </div>
       </div>
 
+      {/* Modal */}
       <AnimatePresence>
         {showModal && (
-          <motion.div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-            <motion.div className="bg-white dark:bg-black rounded-3xl p-8 w-full max-w-md shadow-2xl border border-gray-300 dark:border-gray-700">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              className="bg-white dark:bg-black rounded-3xl p-8 w-full max-w-md shadow-2xl border border-gray-300 dark:border-gray-700"
+            >
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                 <Truck className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
                 Confirm Import

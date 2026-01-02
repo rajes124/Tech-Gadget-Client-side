@@ -70,7 +70,7 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-gray-800 dark:text-white">Product Not Found</h2>
+          <h2 className="text-4xl font-bold text-gray-800 dark:text-gray-100">Product Not Found</h2>
           <Link to="/" className="mt-6 inline-block text-indigo-600 dark:text-indigo-400 hover:underline">
             ← Back to Home
           </Link>
@@ -115,46 +115,60 @@ const ProductDetails = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-white dark:bg-black py-12 px-6">
+      {/* Main Container - Light: White, Dark: Black */}
+      <div className="min-h-screen bg-white dark:bg-black py-12 px-6 transition-colors duration-300">
         <div className="max-w-7xl mx-auto">
+          {/* Breadcrumb */}
           <nav className="text-sm text-gray-600 dark:text-gray-400 mb-8">
             <Link to="/" className="hover:text-indigo-600 dark:hover:text-indigo-400">Home</Link>
             <span className="mx-2">/</span>
             <Link to="/products" className="hover:text-indigo-600 dark:hover:text-indigo-400">Products</Link>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 dark:text-white">{product.name}</span>
+            <span className="text-gray-900 dark:text-gray-100">{product.name}</span>
           </nav>
 
+          {/* Main Product Card - Light: White, Dark: Black */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white dark:bg-black rounded-3xl shadow-2xl overflow-hidden border border-gray-300 dark:border-gray-700"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white dark:bg-black rounded-3xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-800"
           >
-            <div className="relative">
+            {/* Image Section */}
+            <div className="relative bg-gray-50 dark:bg-gray-900">
               <motion.img
                 key={currentImageIndex}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 src={images[currentImageIndex]}
                 alt={product.name}
-                className="w-full h-96 lg:h-full object-cover"
+                className="w-full h-96 lg:h-full object-cover rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none"
               />
               {images.length > 1 && (
                 <>
-                  <button onClick={prevImage} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full shadow-lg">
-                    <ChevronLeft className="w-6 h-6 text-gray-900 dark:text-white" />
+                  <button
+                    onClick={prevImage}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-black/80 p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800"
+                  >
+                    <ChevronLeft className="w-6 h-6 text-gray-900 dark:text-gray-200" />
                   </button>
-                  <button onClick={nextImage} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-black/80 p-3 rounded-full shadow-lg">
-                    <ChevronRight className="w-6 h-6 text-gray-900 dark:text-white" />
+                  <button
+                    onClick={nextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-black/80 p-3 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800"
+                  >
+                    <ChevronRight className="w-6 h-6 text-gray-900 dark:text-gray-200" />
                   </button>
                 </>
               )}
-              <div className="flex gap-2 p-4 justify-center bg-white dark:bg-black border-t border-gray-300 dark:border-gray-700">
+              <div className="flex gap-2 p-4 justify-center bg-white dark:bg-black border-t border-gray-200 dark:border-gray-800">
                 {images.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`w-16 h-16 rounded-lg overflow-hidden border-4 ${idx === currentImageIndex ? "border-indigo-600 dark:border-indigo-500" : "border-transparent"}`}
+                    className={`w-16 h-16 rounded-lg overflow-hidden border-4 transition ${
+                      idx === currentImageIndex
+                        ? "border-indigo-600 dark:border-indigo-500"
+                        : "border-gray-300 dark:border-gray-700"
+                    }`}
                   >
                     <img src={images[idx]} alt="" className="w-full h-full object-cover" />
                   </button>
@@ -162,6 +176,7 @@ const ProductDetails = () => {
               </div>
             </div>
 
+            {/* Product Info */}
             <div className="p-8 lg:p-12 flex flex-col justify-between">
               <div>
                 <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -171,39 +186,39 @@ const ProductDetails = () => {
                   {product.description}
                 </p>
 
-                <div className="grid grid-cols-2 gap-8 mb-10">
-                  <div className="flex items-center gap-4">
-                    <DollarSign className="w-7 h-7 text-green-600 dark:text-green-400" />
+                <div className="grid grid-cols-2 gap-6 mb-10">
+                  <div className="flex items-center gap-3">
+                    <DollarSign className="w-6 h-6 text-green-600 dark:text-green-400" />
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Price</p>
-                      <p className="text-3xl font-bold text-gray-900 dark:text-white">
+                      <p className="text-2xl font-bold text-gray-900 dark:text-white">
                         ${product.price?.toFixed(2)}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <Package className="w-7 h-7 text-purple-600 dark:text-purple-400" />
+                  <div className="flex items-center gap-3">
+                    <Package className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Available Stock</p>
-                      <p className="text-3xl font-bold text-gray-900 dark:text-white">
+                      <p className="text-2xl font-bold text-gray-900 dark:text-white">
                         {product.availableQuantity} pcs
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <Globe className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                  <div className="flex items-center gap-3">
+                    <Globe className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Origin</p>
-                      <p className="text-2xl font-semibold text-gray-900 dark:text-white">
+                      <p className="text-xl font-semibold text-gray-900 dark:text-white">
                         {product.originCountry}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <Star className="w-7 h-7 text-yellow-500 dark:text-yellow-400 fill-current" />
+                  <div className="flex items-center gap-3">
+                    <Star className="w-6 h-6 text-yellow-500 dark:text-yellow-400 fill-current" />
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">Rating</p>
-                      <p className="text-3xl font-bold text-gray-900 dark:text-white">
+                      <p className="text-2xl font-bold text-gray-900 dark:text-white">
                         {product.rating} / 5
                       </p>
                     </div>
@@ -214,7 +229,7 @@ const ProductDetails = () => {
               <div className="flex gap-4">
                 <Link
                   to="/"
-                  className="flex-1 flex items-center justify-center gap-2 py-4 px-6 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium rounded-xl hover:bg-gray-300 dark:hover:bg-gray-700 transition"
+                  className="flex-1 flex items-center justify-center gap-2 py-4 px-6 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-gray-800 transition"
                 >
                   <ArrowLeft className="w-5 h-5" />
                   Back to Home
@@ -230,6 +245,7 @@ const ProductDetails = () => {
             </div>
           </motion.div>
 
+          {/* Related Products */}
           {relatedProducts.length > 0 && (
             <section className="mt-20">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Related Products</h2>
@@ -238,12 +254,12 @@ const ProductDetails = () => {
                   <Link
                     key={rel._id}
                     to={`/product/${rel._id}`}
-                    className="bg-white dark:bg-black rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition border border-gray-300 dark:border-gray-700"
+                    className="bg-white dark:bg-black rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition border border-gray-200 dark:border-gray-800"
                   >
-                    <img src={rel.image} alt={rel.name} className="w-full h-48 object-cover rounded-t-2xl" />
-                    <div className="p-6">
+                    <img src={rel.image} alt={rel.name} className="w-full h-48 object-cover" />
+                    <div className="p-5">
                       <h3 className="font-semibold text-lg text-gray-900 dark:text-white truncate">{rel.name}</h3>
-                      <p className="text-indigo-600 dark:text-indigo-400 font-bold mt-3 text-xl">${rel.price}</p>
+                      <p className="text-indigo-600 dark:text-indigo-400 font-bold mt-2">${rel.price}</p>
                     </div>
                   </Link>
                 ))}
@@ -253,15 +269,26 @@ const ProductDetails = () => {
         </div>
       </div>
 
+      {/* Modal */}
       <AnimatePresence>
         {showModal && (
-          <motion.div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-            <motion.div className="bg-white dark:bg-black rounded-3xl p-8 w-full max-w-md shadow-2xl border border-gray-300 dark:border-gray-700">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9 }}
+              className="bg-white dark:bg-black rounded-3xl p-8 w-full max-w-md shadow-2xl border border-gray-200 dark:border-gray-800"
+            >
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
                 <Truck className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
                 Confirm Import
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Quantity (Max: {product.availableQuantity})
@@ -272,20 +299,20 @@ const ProductDetails = () => {
                     max={product.availableQuantity}
                     value={importQuantity}
                     onChange={(e) => setImportQuantity(Math.max(1, Math.min(product.availableQuantity, Number(e.target.value))))}
-                    className="w-full px-5 py-4 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                    className="w-full px-5 py-3 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                   />
                 </div>
-                <div className="flex gap-4">
+                <div className="pt-4 flex gap-4">
                   <button
                     onClick={() => setShowModal(false)}
-                    className="flex-1 py-4 px-6 border border-gray-300 dark:border-gray-700 rounded-xl font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition text-gray-800 dark:text-gray-200"
+                    className="flex-1 py-3 px-6 border border-gray-300 dark:border-gray-700 rounded-xl font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition text-gray-800 dark:text-gray-200"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleImport}
                     disabled={submitting}
-                    className="flex-1 py-4 px-6 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-70 text-white font-semibold rounded-xl transition flex items-center justify-center gap-2"
+                    className="flex-1 py-3 px-6 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-70 text-white font-semibold rounded-xl transition flex items-center justify-center gap-2"
                   >
                     {submitting ? "Processing..." : (
                       <>

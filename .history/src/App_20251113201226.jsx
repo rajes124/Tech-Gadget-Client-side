@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -18,9 +19,14 @@ const App = () => {
   }, [theme]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-black transition-colors duration-300">
+    <div
+      className={`flex flex-col min-h-screen transition-colors duration-300 
+        ${theme === "dark" ? "bg-gray-950 text-gray-100" : "bg-gray-50 text-gray-900"}`}
+    >
+      {/* Navbar gets theme props */}
       <Navbar theme={theme} setTheme={setTheme} />
 
+      {/* All Routed Pages */}
       <main className="flex-grow">
         <Outlet context={{ theme, setTheme }} />
       </main>

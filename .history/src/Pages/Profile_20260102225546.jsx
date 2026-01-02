@@ -70,7 +70,7 @@ const Profile = () => {
 
   return (
     <>
-      {/* No bg class here - inherit from App.jsx (white in light, black in dark) */}
+      {/* Page Background inherit from App.jsx - no extra bg needed */}
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <motion.div
@@ -88,7 +88,7 @@ const Profile = () => {
 
             <div className="p-8 lg:p-12">
               <div className="flex flex-col items-center gap-8">
-                {/* Photo */}
+                {/* Profile Photo */}
                 <div className="relative group">
                   <img
                     src={photo || "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
@@ -100,7 +100,7 @@ const Profile = () => {
                   </div>
                 </div>
 
-                {/* Info */}
+                {/* User Info */}
                 <div className="text-center space-y-3">
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {user.displayName || "Anonymous User"}
@@ -129,7 +129,7 @@ const Profile = () => {
                   )}
                 </button>
 
-                {/* Form */}
+                {/* Edit Form */}
                 <AnimatePresence>
                   {showForm && (
                     <motion.div
@@ -155,7 +155,7 @@ const Profile = () => {
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           Email (Read-only)
                         </label>
-                        <div className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-500 cursor-not-allowed flex items-center gap-2">
+                        <div className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-500 cursor-not-allowed flex items-center gap-2">
                           <Mail className="w-5 h-5" />
                           {email}
                         </div>

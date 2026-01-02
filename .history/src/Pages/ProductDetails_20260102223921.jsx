@@ -50,7 +50,7 @@ const ProductDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-black-950 flex items-center justify-center">
         <div className="space-y-4 w-full max-w-6xl mx-auto px-6">
           <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded w-1/3 animate-pulse" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

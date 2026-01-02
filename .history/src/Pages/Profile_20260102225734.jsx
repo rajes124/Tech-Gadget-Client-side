@@ -70,7 +70,7 @@ const Profile = () => {
 
   return (
     <>
-      {/* No bg class here - inherit from App.jsx (white in light, black in dark) */}
+      {/* No background here - inherit from App.jsx */}
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <motion.div
@@ -78,7 +78,7 @@ const Profile = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700"
           >
-            {/* Header */}
+            {/* Header Gradient */}
             <div className="bg-gradient-to-r from-indigo-600 to-blue-600 px-8 py-10 text-center">
               <h2 className="text-3xl font-bold text-white flex items-center justify-center gap-3">
                 <User className="w-9 h-9" />
@@ -146,7 +146,7 @@ const Profile = () => {
                           type="text"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                          className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                           placeholder="Enter your full name"
                         />
                       </div>
@@ -155,7 +155,7 @@ const Profile = () => {
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           Email (Read-only)
                         </label>
-                        <div className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-500 cursor-not-allowed flex items-center gap-2">
+                        <div className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-500 cursor-not-allowed flex items-center gap-2">
                           <Mail className="w-5 h-5" />
                           {email}
                         </div>
@@ -169,7 +169,7 @@ const Profile = () => {
                           type="url"
                           value={photo}
                           onChange={(e) => setPhoto(e.target.value)}
-                          className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                          className="w-full px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                           placeholder="https://example.com/photo.jpg"
                         />
                         {photo && (
@@ -187,7 +187,7 @@ const Profile = () => {
                       <button
                         onClick={handleUpdateProfile}
                         disabled={saving}
-                        className="w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-3"
+                        className="w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-lg disabled:opacity-70 flex items-center justify-center gap-3"
                       >
                         {saving ? (
                           <>

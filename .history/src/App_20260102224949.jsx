@@ -18,13 +18,16 @@ const App = () => {
   }, [theme]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-black transition-colors duration-300">
+    <div className="flex flex-col min-h-screen transition-colors duration-300">
+      {/* Navbar */}
       <Navbar theme={theme} setTheme={setTheme} />
 
+      {/* Pages - background প্রত্যেক পেজ নিজে কন্ট্রোল করবে */}
       <main className="flex-grow">
         <Outlet context={{ theme, setTheme }} />
       </main>
 
+      {/* Footer */}
       <Footer theme={theme} />
     </div>
   );
