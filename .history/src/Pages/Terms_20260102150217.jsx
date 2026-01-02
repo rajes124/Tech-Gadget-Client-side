@@ -132,8 +132,8 @@ const Terms = () => {
             For any questions regarding these Terms, please contact us at:
           </p>
           <p className="mt-3">
-            <strong>Email:</strong> rajesray307@gmail.com<br />
-            <strong>Phone:</strong> +880-1407539879<br />
+            <strong>Email:</strong> support@techgadget.com<br />
+            <strong>Phone:</strong> +880-1234-567890<br />
             <strong>Address:</strong> Level-5, House 34, Road 12, Banani, Dhaka, Bangladesh
           </p>
         </section>

@@ -174,275 +174,203 @@ const Home = ({ theme }) => {
         </motion.div>
       </section>
 
-{/* 3. Stats Section - Clean & Visible in Both Modes */}
-<section className="
-  py-20 sm:py-24 px-6 md:px-12
-  bg-gradient-to-b
-  from-slate-50 via-white to-slate-100
-  dark:from-gray-800 dark:via-gray-900 dark:to-gray-800
-">
-  <div className="max-w-6xl mx-auto text-center">
-    <motion.h2 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent"
-    >
-      Trusted by 45K+ Businesses
-    </motion.h2>
-
-    <p className="text-xl text-gray-600 dark:text-gray-300 mb-16 max-w-2xl mx-auto">
-      Join the world's largest tech import-export network
-    </p>
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-5xl mx-auto">
-      {[
-        { icon: FaStar, value: stats.totalProducts.toLocaleString() || "1,200", label: "Products", color: "text-blue-600 dark:text-blue-400" },
-        { icon: FaUsers, value: stats.totalUsers.toLocaleString() || "45,000", label: "Active Users", color: "text-green-600 dark:text-green-400" },
-        { icon: FaTruck, value: `$${(stats.totalExports || 2500).toLocaleString()}K`, label: "Total Exports", color: "text-purple-600 dark:text-purple-400" }
-      ].map((stat, idx) => (
-        <motion.div
-          key={idx}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: idx * 0.2 }}
-          className="
-            group
-            bg-white dark:bg-gray-800/80
-            rounded-3xl p-10
-            shadow-xl hover:shadow-2xl
-            border border-gray-200 dark:border-gray-700
-            transition-all duration-500
-            hover:-translate-y-4
-          "
-        >
-          <div className={`text-6xl md:text-7xl mb-6 ${stat.color} group-hover:scale-110 transition-transform duration-500`}>
-            <stat.icon className="mx-auto" />
+      {/* 3. Stats Section */}
+      <section className="py-20 sm:py-24 px-6 md:px-12 bg-gradient-to-b from-blue-50 to-white dark:from-gray-800 dark:to-gray-900">
+        <div className="max-w-6xl mx-auto text-center">
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-3xl sm:text-4xl md:text-5xl font-black mb-2 bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent"
+          >
+            Trusted by 45K+ Businesses
+          </motion.h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-16 max-w-2xl mx-auto">
+            Join the world's largest tech import-export network
+          </p>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {[
+              { icon: FaStar, value: stats.totalProducts.toLocaleString(), label: "Products", color: "text-blue-600" },
+              { icon: FaUsers, value: stats.totalUsers.toLocaleString(), label: "Active Users", color: "text-green-600" },
+              { icon: FaTruck, value: `$${stats.totalExports.toLocaleString()}K`, label: "Total Exports", color: "text-purple-600" }
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.2 }}
+                className="group"
+              >
+                <div className={`text-4xl md:text-5xl mb-4 ${stat.color}`}>
+                  <stat.icon />
+                </div>
+                <div className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {stat.value}
+                </div>
+                <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 font-medium mt-1">{stat.label}</p>
+              </motion.div>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-3">
-            {stat.value}
-          </div>
-
-          <p className="text-lg text-gray-600 dark:text-gray-400 font-medium">
-            {stat.label}
+      {/* 4. Latest Products - With Skeleton Loader */}
+      <section className="py-20 sm:py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
+            <span className={isDark ? "text-white" : "text-gray-900"}>Latest</span>{" "}
+            <span className="text-transparent bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text">Tech Products</span>
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
+            Fresh arrivals from Japan, Germany, USA and more
           </p>
         </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
 
-
-{/* 4. Latest Products - With Skeleton Loader */}
-<section className="py-20 sm:py-24 px-6 md:px-12 max-w-7xl mx-auto">
-  <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-16">
-    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-      <span className={isDark ? "text-white" : "text-gray-900"}>Latest</span>{" "}
-      <span className="text-transparent bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text">Tech Products</span>
-    </h2>
-  <p className="text-lg md:text-xl font-medium text-gray-400 dark:text-gray-500 max-w-2xl mx-auto">
-    Fresh arrivals from Japan, Germany, USA and more
-  </p>
-  </motion.div>
-
-  {loading ? (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
-      {Array(8).fill().map((_, idx) => <SkeletonCard key={idx} />)}
-    </div>
-  ) : products.length === 0 ? (
-    <div className="text-center py-20">
-      <FaTruck className="text-6xl text-gray-400 mx-auto mb-6" />
-      <h3 className="text-2xl font-bold text-gray-600 dark:text-gray-400 mb-2">No products available</h3>
-      <p className="text-lg text-gray-500 dark:text-gray-500">Check back soon for new arrivals</p>
-    </div>
-  ) : (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
-      <AnimatePresence>
-        {products.slice(0, 8).map((p, idx) => (
-          <motion.div
-            key={p._id}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ delay: idx * 0.05 }}
-            whileHover={{ 
-              y: -12, 
-              scale: 1.02, 
-              rotateX: -5, 
-              rotateY: 5,
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
-            }}
-            className="group bg-white/70 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-3xl 
-              overflow-hidden transition-all duration-500 border border-white/50 dark:border-gray-700/50 
-              hover:border-blue-200/50 dark:hover:border-blue-400/30 flex flex-col"
-          >
-            {/* Image Section */}
-            <div className="relative overflow-hidden h-40 sm:h-44 md:h-48 bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-700 dark:to-gray-800">
-              <img
-                src={p.image || "https://i.ibb.co/2kzH8v1/no-image.png"}
-                alt={p.name}
-                className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
-                onError={(e) => { e.target.src = "https://i.ibb.co/2kzH8v1/no-image.png"; }}
-              />
-
-              {/* Rating Badge - Top-left */}
-              <div className="absolute top-2 left-2">
-                <div className="bg-gradient-to-r from-yellow-400 to-amber-500 dark:from-yellow-500 dark:to-amber-600 text-black dark:text-white px-2 py-0.5 rounded-full text-xs font-bold flex items-center gap-1 shadow-md backdrop-blur-sm">
-                  <svg className="w-3 h-3 fill-current text-yellow-600 dark:text-yellow-300" viewBox="0 0 24 24">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <span>{p.rating || 4.8}</span>
-                  <span className="font-normal opacity-80">({Math.floor(Math.random() * 1000) + 100})</span>
-                </div>
-              </div>
-
-              {/* TOP / HOT Badge - Top-right */}
-              <div className="absolute top-2 right-2">
-                <div className={`px-2 py-0.5 rounded-full text-xs font-bold flex items-center gap-1 shadow-md backdrop-blur-sm text-white ${
-                  p.availableQuantity > 100 
-                    ? "bg-gradient-to-r from-purple-500 to-pink-600 dark:from-purple-600 dark:to-pink-700" 
-                    : "bg-gradient-to-r from-red-500 to-orange-600 dark:from-red-600 dark:to-orange-700"
-                }`}>
-                  <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                    {p.availableQuantity > 100 ? (
-                      // Trophy Icon for TOP
-                      <path d="M18 2H6v2h-.5A2.5 2.5 0 003 6.5V8a3 3 0 002.5 2.95A4.99 4.99 0 009 15.9V22h6v-6.1a4.99 4.99 0 003.5-4.95A3 3 0 0021 8v-1.5A2.5 2.5 0 0018.5 4H18V2zM19 8a1 1 0 01-2 0V6h-2v2a1 1 0 01-2 0V6H9v2a1 1 0 01-2 0V6H5v1.5A.5.5 0 015.5 8h13a.5.5 0 01.5.5V8z"/>
-                    ) : (
-                      // Fire Icon for HOT
-                      <path d="M12 23a1.5 1.5 0 01-1.5-1.5v-9.46a6.98 6.98 0 013-1.35 6.98 6.98 0 013 1.35V21.5A1.5 1.5 0 0115 23h-3zM12 0c-3.87 0-7 2.69-7 6 0 2.29 1.39 4.29 3.5 5.48V13h7v-1.52C17.61 10.29 19 8.29 19 6c0-3.31-3.13-6-7-6z"/>
-                    )}
-                  </svg>
-                  <span>{p.availableQuantity > 100 ? "TOP" : "HOT"}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Content Section */}
-            <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
-              <div className="space-y-1.5">
-                <h3 className="text-base sm:text-lg font-bold line-clamp-2 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  {p.name}
-                </h3>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl sm:text-2xl font-black text-blue-600 dark:text-blue-400">
-                    ${p.price?.toLocaleString() || "1,299"}
-                  </span>
-                  <span className="text-xs bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 px-2 py-0.5 rounded-full font-semibold">
-                    Save 15%
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400">
-                  {getFlag(p.originCountry)} {p.originCountry || "Global Origin"}
-                </div>
-              </div>
-              
-              <div className="space-y-2 mt-4">
-                <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-                  <span className="flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                      <path d="M20 7h-3V4a1 1 0 00-1-1H8a1 1 0 00-1 1v3H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM9 5h6v2H9V5zm11 13H4V9h3v2h10V9h3v9z"/>
-                    </svg>
-                    {p.availableQuantity || 0} pcs left
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17v-2h2v2h-2zm1-3.5c-2.76 0-5-2.24-5-5h2c0 1.65 1.35 3 3 3s3-1.35 3-3-1.35-3-3-3v-1.5c2.76 0 5 2.24 5 5s-2.24 5-5 5z"/>
-                    </svg>
-                    Ships worldwide
-                  </span>
-                </div>
-
-                <Link 
-                  to={`/product/${p._id}`}
-                  className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white py-2.5 px-4 rounded-2xl font-bold text-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transform transition-all duration-300 flex items-center justify-center gap-2"
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
+            {Array(8).fill().map((_, idx) => <SkeletonCard key={idx} />)}
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-20">
+            <FaTruck className="text-6xl text-gray-400 mx-auto mb-6" />
+            <h3 className="text-2xl font-bold text-gray-600 dark:text-gray-400 mb-2">No products available</h3>
+            <p className="text-lg text-gray-500 dark:text-gray-500">Check back soon for new arrivals</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
+            <AnimatePresence>
+              {products.slice(0, 8).map((p, idx) => (
+                <motion.div
+                  key={p._id}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ delay: idx * 0.05 }}
+                  whileHover={{ 
+                    y: -12, 
+                    scale: 1.02, 
+                    rotateX: -5, 
+                    rotateY: 5,
+                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                  }}
+                  className="group bg-white/70 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-3xl 
+                    overflow-hidden transition-all duration-500 border border-white/50 dark:border-gray-700/50 
+                    hover:border-blue-200/50 dark:hover:border-blue-400/30 h-full flex flex-col"
                 >
-                  <FaDownload className="text-xs" /> View Details
-                </Link>
-              </div>
-            </div>
+                  <div className="relative overflow-hidden h-48 sm:h-52 md:h-56 lg:h-60 bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-700 dark:to-gray-800">
+                    <img
+                      src={p.image || "https://i.ibb.co/2kzH8v1/no-image.png"}
+                      alt={p.name}
+                      className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
+                      onError={(e) => { e.target.src = "https://i.ibb.co/2kzH8v1/no-image.png"; }}
+                    />
+                    <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-yellow-500 px-3 py-1.5 rounded-full font-bold text-xs shadow-lg backdrop-blur-sm border border-yellow-300/50">
+                      ⭐ {p.rating || 4.8} ({Math.floor(Math.random() * 1000) + 100} reviews)
+                    </div>
+                    <div className="absolute top-3 right-3 bg-green-500/90 text-white px-2.5 py-1 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
+                      {p.availableQuantity > 100 ? "🏆 TOP" : "🔥 HOT"}
+                    </div>
+                  </div>
+
+                  <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between">
+                    <div className="space-y-2 mb-4">
+                      <h3 className="text-lg sm:text-xl font-bold line-clamp-2 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {p.name}
+                      </h3>
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl sm:text-2xl font-black text-blue-600 dark:text-blue-400">
+                          ${p.price?.toLocaleString() || "1,299"}
+                        </span>
+                        <span className="text-xs bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 px-2 py-1 rounded-full font-semibold">
+                          Save 15%
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        {getFlag(p.originCountry)} {p.originCountry || "Global Origin"}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2 mt-auto">
+                      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-500">
+                        <span>📦 {p.availableQuantity || 0} pcs</span>
+                        <span>⚡ Ships worldwide</span>
+                      </div>
+                      <Link 
+                        to={`/product/${p._id}`}
+                        className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white py-3 px-4 rounded-2xl font-bold text-sm shadow-lg hover:shadow-xl hover:-translate-y-1 transform transition-all duration-300 group-hover:scale-[1.02] flex items-center justify-center gap-2"
+                      >
+                        <FaDownload className="text-xs" /> View Details
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
+
+        {!loading && products.length > 0 && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-center mt-16"
+          >
+            <Link
+              to="/all-products"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl hover:-translate-y-2 transition-all duration-300"
+            >
+              View All Products
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
           </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
-  )}
+        )}
+      </section>
 
-  {!loading && products.length > 0 && (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      className="text-center mt-16"
-    >
-      <Link
-        to="/all-products"
-        className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl hover:-translate-y-2 transition-all duration-300"
-      >
-        View All Products
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </Link>
-    </motion.div>
-  )}
-</section>
-
-
-     {/* 5. Why Choose Us */}
-<section className={`py-20 sm:py-24 px-6 md:px-12 ${
-  isDark ? "bg-gradient-to-b from-gray-900 to-black" : "bg-gradient-to-r from-blue-50 to-emerald-50"
-}`}>
-  <div className="max-w-6xl mx-auto text-center mb-16">
-    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">
-      Why Choose <span className="text-transparent bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text">TechGadget Hub</span>?
-    </h2>
-    
-    {/* Subtitle - Fixed visibility & contrast */}
-    <p className="text-lg md:text-xl font-medium text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-      Trusted by 45K+ businesses worldwide
-    </p>
-  </div>
-  
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
-    {[
-      { icon: FaGlobeAsia, title: "Global Network", desc: "100+ countries, 50K+ verified suppliers & buyers", color: "from-blue-500 to-blue-600" },
-      { icon: FaShieldAlt, title: "Secure Platform", desc: "End-to-end encryption, fraud protection guarantee", color: "from-green-500 to-emerald-600" },
-      { icon: FaTruck, title: "Fast Logistics", desc: "DHL, FedEx partners. 3-7 day delivery worldwide", color: "from-purple-500 to-indigo-600" },
-      { icon: FaHandshake, title: "Trusted Partners", desc: "Amazon, Apple, Samsung verified suppliers", color: "from-orange-500 to-yellow-600" }
-    ].map((feature, idx) => (
-      <motion.div
-        key={idx}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: idx * 0.1 }}
-        whileHover={{ y: -10, scale: 1.05 }}
-        className="group relative bg-white dark:bg-gray-800 backdrop-blur-xl rounded-3xl p-8 sm:p-10 shadow-xl hover:shadow-3xl border border-gray-200 dark:border-gray-700 transition-all duration-500 overflow-hidden h-full"
-      >
-        <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-        
-        {/* Icon with gradient background */}
-        <div className={`p-4 rounded-2xl bg-gradient-to-r ${feature.color} text-white shadow-2xl mb-6 w-fit mx-auto group-hover:scale-110 transition-all duration-500`}>
-          <feature.icon size={32} />
+      {/* 5. Why Choose Us */}
+      <section className={`py-20 sm:py-24 px-6 md:px-12 ${
+        isDark ? "bg-gradient-to-b from-gray-800 to-gray-900" : "bg-gradient-to-r from-blue-50 to-emerald-50"
+      }`}>
+        <div className="max-w-6xl mx-auto text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">
+            Why Choose <span className="text-transparent bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text">TechGadget Hub</span>?
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Trusted by 45K+ businesses worldwide
+          </p>
         </div>
         
-        {/* Title */}
-        <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-          {feature.title}
-        </h3>
-        
-        {/* Description */}
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-          {feature.desc}
-        </p>
-        
-        {/* Optional hover checkmark */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500">
-          <FaCheckCircle className="text-green-500 text-2xl animate-ping" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
+          {[
+            { icon: FaGlobeAsia, title: "🌍 Global Network", desc: "100+ countries, 50K+ verified suppliers & buyers", color: "from-blue-500 to-blue-600" },
+            { icon: FaShieldAlt, title: "🔒 Secure Platform", desc: "End-to-end encryption, fraud protection guarantee", color: "from-green-500 to-emerald-600" },
+            { icon: FaTruck, title: "🚚 Fast Logistics", desc: "DHL, FedEx partners. 3-7 day delivery worldwide", color: "from-purple-500 to-indigo-600" },
+            { icon: FaHandshake, title: "🤝 Trusted Partners", desc: "Amazon, Apple, Samsung verified suppliers", color: "from-orange-500 to-yellow-600" }
+          ].map((feature, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              whileHover={{ y: -10, scale: 1.05 }}
+              className="group relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl rounded-3xl p-8 sm:p-10 shadow-xl hover:shadow-3xl border border-white/50 dark:border-gray-700/50 transition-all duration-500 overflow-hidden h-full"
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+              <div className={`p-4 rounded-2xl bg-gradient-to-r ${feature.color} text-white shadow-2xl mb-6 w-fit mx-auto group-hover:scale-110 transition-all duration-500`}>
+                <feature.icon size={32} />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                {feature.title}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{feature.desc}</p>
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                <FaCheckCircle className="text-green-500 text-2xl animate-ping" />
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </motion.div>
-    ))}
-  </div>
-</section>
+      </section>
 
       {/* 6. Testimonials Carousel */}
       <section className="py-20 sm:py-24 px-6 md:px-12 bg-gradient-to-b from-white via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">

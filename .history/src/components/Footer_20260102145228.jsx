@@ -73,7 +73,11 @@ const Footer = ({ theme }) => {
                   href: "https://github.com/rajes124",
                   hover: "hover:bg-gray-900",
                 },
-               
+                {
+                  icon: FaYoutube,
+                  href: "https://youtube.com",
+                  hover: "hover:bg-red-600",
+                },
               ].map(({ icon: Icon, href, hover }, i) => (
                 <a
                   key={i}
@@ -152,11 +156,9 @@ const Footer = ({ theme }) => {
               </li>
 
               <li className="flex items-center gap-3 justify-center sm:justify-start">
-  <FaMapMarkerAlt className="text-green-500" />
-  <span className="hover:text-green-500 dark:hover:text-green-400 transition">
-    Netrakona, Mymensingh, Bangladesh
-  </span>
-</li>
+                <FaMapMarkerAlt className="text-green-500" />
+                <span>Mymensingh, Netrakona, Bangladesh</span>
+              </li>
             </ul>
           </div>
 

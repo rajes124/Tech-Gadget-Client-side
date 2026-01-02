@@ -388,61 +388,49 @@ const Home = ({ theme }) => {
 </section>
 
 
-     {/* 5. Why Choose Us */}
-<section className={`py-20 sm:py-24 px-6 md:px-12 ${
-  isDark ? "bg-gradient-to-b from-gray-900 to-black" : "bg-gradient-to-r from-blue-50 to-emerald-50"
-}`}>
-  <div className="max-w-6xl mx-auto text-center mb-16">
-    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">
-      Why Choose <span className="text-transparent bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text">TechGadget Hub</span>?
-    </h2>
-    
-    {/* Subtitle - Fixed visibility & contrast */}
-    <p className="text-lg md:text-xl font-medium text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-      Trusted by 45K+ businesses worldwide
-    </p>
-  </div>
-  
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
-    {[
-      { icon: FaGlobeAsia, title: "Global Network", desc: "100+ countries, 50K+ verified suppliers & buyers", color: "from-blue-500 to-blue-600" },
-      { icon: FaShieldAlt, title: "Secure Platform", desc: "End-to-end encryption, fraud protection guarantee", color: "from-green-500 to-emerald-600" },
-      { icon: FaTruck, title: "Fast Logistics", desc: "DHL, FedEx partners. 3-7 day delivery worldwide", color: "from-purple-500 to-indigo-600" },
-      { icon: FaHandshake, title: "Trusted Partners", desc: "Amazon, Apple, Samsung verified suppliers", color: "from-orange-500 to-yellow-600" }
-    ].map((feature, idx) => (
-      <motion.div
-        key={idx}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: idx * 0.1 }}
-        whileHover={{ y: -10, scale: 1.05 }}
-        className="group relative bg-white dark:bg-gray-800 backdrop-blur-xl rounded-3xl p-8 sm:p-10 shadow-xl hover:shadow-3xl border border-gray-200 dark:border-gray-700 transition-all duration-500 overflow-hidden h-full"
-      >
-        <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-        
-        {/* Icon with gradient background */}
-        <div className={`p-4 rounded-2xl bg-gradient-to-r ${feature.color} text-white shadow-2xl mb-6 w-fit mx-auto group-hover:scale-110 transition-all duration-500`}>
-          <feature.icon size={32} />
+      {/* 5. Why Choose Us */}
+      <section className={`py-20 sm:py-24 px-6 md:px-12 ${
+        isDark ? "bg-gradient-to-b from-gray-800 to-gray-900" : "bg-gradient-to-r from-blue-50 to-emerald-50"
+      }`}>
+        <div className="max-w-6xl mx-auto text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">
+            Why Choose <span className="text-transparent bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text">TechGadget Hub</span>?
+          </h2>
+          <p className="text-xl text-gray-900 dark:text-gray-300 max-w-2xl mx-auto">
+            Trusted by 45K+ businesses worldwide
+          </p>
         </div>
         
-        {/* Title */}
-        <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-          {feature.title}
-        </h3>
-        
-        {/* Description */}
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-          {feature.desc}
-        </p>
-        
-        {/* Optional hover checkmark */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500">
-          <FaCheckCircle className="text-green-500 text-2xl animate-ping" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
+          {[
+            { icon: FaGlobeAsia, title: "🌍 Global Network", desc: "100+ countries, 50K+ verified suppliers & buyers", color: "from-blue-500 to-blue-600" },
+            { icon: FaShieldAlt, title: "🔒 Secure Platform", desc: "End-to-end encryption, fraud protection guarantee", color: "from-green-500 to-emerald-600" },
+            { icon: FaTruck, title: "🚚 Fast Logistics", desc: "DHL, FedEx partners. 3-7 day delivery worldwide", color: "from-purple-500 to-indigo-600" },
+            { icon: FaHandshake, title: "🤝 Trusted Partners", desc: "Amazon, Apple, Samsung verified suppliers", color: "from-orange-500 to-yellow-600" }
+          ].map((feature, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              whileHover={{ y: -10, scale: 1.05 }}
+              className="group relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl rounded-3xl p-8 sm:p-10 shadow-xl hover:shadow-3xl border border-white/50 dark:border-gray-700/50 transition-all duration-500 overflow-hidden h-full"
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+              <div className={`p-4 rounded-2xl bg-gradient-to-r ${feature.color} text-white shadow-2xl mb-6 w-fit mx-auto group-hover:scale-110 transition-all duration-500`}>
+                <feature.icon size={32} />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                {feature.title}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{feature.desc}</p>
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                <FaCheckCircle className="text-green-500 text-2xl animate-ping" />
+              </div>
+            </motion.div>
+          ))}
         </div>
-      </motion.div>
-    ))}
-  </div>
-</section>
+      </section>
 
       {/* 6. Testimonials Carousel */}
       <section className="py-20 sm:py-24 px-6 md:px-12 bg-gradient-to-b from-white via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
