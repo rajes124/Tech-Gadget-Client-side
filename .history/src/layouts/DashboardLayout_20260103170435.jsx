@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { 
   HiMenu, HiX, HiHome, HiUser, HiLogout, HiPlusCircle, 
-  HiUpload, HiDownload, HiUsers, HiCube, HiDocumentText  // HiPackage remove, HiCube add
+  HiUpload, HiDownload, HiUsers, HiCube, HiDocumentText  // HiPackage এর বদলে HiCube বা HiDocumentText
 } from 'react-icons/hi';
 
 const DashboardLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // mobile-এ default closed
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const userName = user?.name || user?.email?.split("@")[0] || "User";
   const userPhoto = user?.photoURL || "https://via.placeholder.com/40";
-  const userRole = user?.role || "user";
+  const userRole = user?.role || "user"; // default 'user'
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -21,6 +21,7 @@ const DashboardLayout = () => {
     navigate("/login");
   };
 
+  // Base menu for all users
   const baseMenuItems = [
     { name: 'Dashboard Home', icon: <HiHome className="text-xl" />, path: '/dashboard' },
     { name: 'Add Export', icon: <HiPlusCircle className="text-xl" />, path: '/dashboard/add-export' },
@@ -29,20 +30,23 @@ const DashboardLayout = () => {
     { name: 'Profile', icon: <HiUser className="text-xl" />, path: '/dashboard/profile' },
   ];
 
+  // Admin only menu (minimum 3)
   const adminMenuItems = [
     { name: 'Manage Users', icon: <HiUsers className="text-xl" />, path: '/dashboard/admin/users' },
-    { name: 'Manage Products', icon: <HiCube className="text-xl" />, path: '/dashboard/admin/products' }, // FIXED: HiPackage → HiCube
+    { name: 'Manage Products', icon: <HiPackage className="text-xl" />, path: '/dashboard/admin/products' },
     { name: 'All Orders/Inquiries', icon: <HiDocumentText className="text-xl" />, path: '/dashboard/admin/orders' },
   ];
 
+  // Final menu based on role
   const menuItems = userRole === 'admin' ? [...baseMenuItems, ...adminMenuItems] : baseMenuItems;
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
-      {/* Top Navbar */}
+      {/* Top Navbar - Fixed */}
       <header className="bg-white dark:bg-gray-800 shadow-lg fixed top-0 left-0 right-0 z-30">
         <div className="flex items-center justify-between px-4 sm:px-6 py-4">
           <div className="flex items-center gap-4">
+            {/* Hamburger for Mobile */}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="text-gray-600 dark:text-gray-300 focus:outline-none lg:hidden"
@@ -70,25 +74,45 @@ const DashboardLayout = () => {
 
             {dropdownOpen && (
               <div className="absolute right-0 mt-3 w-56 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl py-3 border border-gray-200 dark:border-gray-700">
-                <Link to="/dashboard" className="flex items-center gap-3 px-6 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setDropdownOpen(false)}>
-                  <HiHome className="text-lg" /> Dashboard Home
+                <Link
+                  to="/dashboard"
+                  className="flex items-center gap-3 px-6 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                  onClick={() => setDropdownOpen(false)}
+                >
+                  <HiHome className="text-lg" />
+                  Dashboard Home
                 </Link>
-                <Link to="/dashboard/profile" className="flex items-center gap-3 px-6 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setDropdownOpen(false)}>
-                  <HiUser className="text-lg" /> Profile
+                <Link
+                  to="/dashboard/profile"
+                  className="flex items-center gap-3 px-6 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                  onClick={() => setDropdownOpen(false)}
+                >
+                  <HiUser className="text-lg" />
+                  Profile
                 </Link>
 
+                {/* Admin extra dropdown menu (optional) */}
                 {userRole === 'admin' && (
                   <>
                     <hr className="my-2 border-gray-200 dark:border-gray-700" />
-                    <Link to="/dashboard/admin/users" className="flex items-center gap-3 px-6 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition" onClick={() => setDropdownOpen(false)}>
-                      <HiUsers className="text-lg" /> Manage Users
+                    <Link
+                      to="/dashboard/admin/users"
+                      className="flex items-center gap-3 px-6 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <HiUsers className="text-lg" />
+                      Manage Users
                     </Link>
                   </>
                 )}
 
                 <hr className="my-2 border-gray-200 dark:border-gray-700" />
-                <button onClick={handleLogout} className="w-full flex items-center gap-3 px-6 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition text-left">
-                  <HiLogout className="text-lg" /> Logout
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-6 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition text-left"
+                >
+                  <HiLogout className="text-lg" />
+                  Logout
                 </button>
               </div>
             )}
@@ -96,15 +120,19 @@ const DashboardLayout = () => {
         </div>
       </header>
 
-      <div className="flex flex-1 pt-16">
+      <div className="flex flex-1 pt-16"> {/* pt-16 for fixed navbar */}
         {/* Sidebar */}
-        <aside className={`fixed inset-y-0 left-0 z-20 w-64 bg-white dark:bg-gray-800 shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} pt-16 lg:pt-0 border-r border-gray-200 dark:border-gray-700`}>
+        <aside
+          className={`fixed inset-y-0 left-0 z-20 w-64 bg-white dark:bg-gray-800 shadow-2xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          } pt-16 lg:pt-0 border-r border-gray-200 dark:border-gray-700`}
+        >
           <nav className="mt-6 px-4">
             {menuItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                onClick={() => setSidebarOpen(false)}
+                onClick={() => setSidebarOpen(false)} // mobile-এ click করলে sidebar close
                 className="flex items-center gap-4 px-6 py-4 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 rounded-xl mx-2 transition"
               >
                 {item.icon}
@@ -120,9 +148,12 @@ const DashboardLayout = () => {
         </main>
       </div>
 
-      {/* Mobile Overlay */}
+      {/* Mobile Overlay when sidebar open */}
       {sidebarOpen && (
-        <div className="fixed inset-0 bg-black/50 z-10 lg:hidden" onClick={() => setSidebarOpen(false)} />
+        <div
+          className="fixed inset-0 bg-black/50 z-10 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
       )}
     </div>
   );

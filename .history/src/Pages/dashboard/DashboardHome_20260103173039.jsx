@@ -6,7 +6,7 @@ import {
   HiUpload, 
   HiDownload, 
   HiUsers, 
-  HiCube,                 // Products এর জন্য (HiPackage এর বদলে)
+  HiCube,                 // Products এর জন্য
   HiDocumentText          // Orders এর জন্য
 } from 'react-icons/hi';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
@@ -26,6 +26,7 @@ const DashboardHome = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Admin-এর জন্য extra stats fetch
     if (isAdmin) {
       fetch("https://back-end-server-theta.vercel.app/admin/stats")
         .then(res => res.json())
@@ -84,19 +85,17 @@ const DashboardHome = () => {
           <p className="text-center mt-3 opacity-90 text-sm sm:text-base">Track all imported items</p>
         </Link>
 
-        {/* Admin Extra Cards – HiPackage → HiCube করা হয়েছে */}
+        {/* Admin Extra Cards */}
         {isAdmin && (
           <>
             <Link to="/dashboard/admin/users" className="group bg-gradient-to-br from-red-600 to-orange-600 rounded-3xl p-8 text-white shadow-2xl hover:shadow-3xl transform hover:-translate-y-3 transition-all duration-500">
               <HiUsers className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 group-hover:scale-110 transition" />
               <h3 className="text-2xl font-bold text-center">Manage Users</h3>
             </Link>
-
             <Link to="/dashboard/admin/products" className="group bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl p-8 text-white shadow-2xl hover:shadow-3xl transform hover:-translate-y-3 transition-all duration-500">
-              <HiCube className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 group-hover:scale-110 transition" /> {/* FIXED: HiPackage → HiCube */}
+              <HiPackage className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 group-hover:scale-110 transition" />
               <h3 className="text-2xl font-bold text-center">Manage Products</h3>
             </Link>
-
             <Link to="/dashboard/admin/orders" className="group bg-gradient-to-br from-teal-600 to-cyan-600 rounded-3xl p-8 text-white shadow-2xl hover:shadow-3xl transform hover:-translate-y-3 transition-all duration-500">
               <HiDocumentText className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 group-hover:scale-110 transition" />
               <h3 className="text-2xl font-bold text-center">All Orders</h3>
