@@ -68,8 +68,7 @@ const AllProducts = () => {
   }, [products, searchTerm]);
 
   return (
-    <section className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
-
+    <section className="py-16 sm:py-20 md:py-24 px-6 md:px-12 max-w-7xl mx-auto min-h-screen bg-transparent">
       {/* Header with Search */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}

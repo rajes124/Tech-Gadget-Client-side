@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useOutletContext } from "react-router-dom"; // useOutletContext যোগ করা হয়েছে
+import { Link } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import { FaDownload } from "react-icons/fa";
 
-// Flag helper function
+// Flag helper function (তোমার Latest Products-এ যেভাবে ছিল)
 const getFlag = (country) => {
   switch ((country || "").toLowerCase()) {
     case "usa": return "🇺🇸";
@@ -18,7 +18,7 @@ const getFlag = (country) => {
   }
 };
 
-// Skeleton Card Component
+// Skeleton Card Component (Latest Products-এর মতোই)
 const SkeletonCard = () => (
   <div className="group bg-white/70 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-xl overflow-hidden border border-white/50 dark:border-gray-700/50 flex flex-col animate-pulse">
     <div className="h-40 sm:h-44 md:h-48 bg-gray-200 dark:bg-gray-700"></div>
@@ -32,12 +32,10 @@ const SkeletonCard = () => (
 );
 
 const AllProducts = () => {
-  // App.jsx থেকে global theme নিয়ে নিচ্ছি
-  const { theme } = useOutletContext();
-
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isDark, setIsDark] = useState(false); // তুমি যদি global dark mode use করো তাহলে এটা context থেকে নিবে
 
   useEffect(() => {
     document.title = "All Products - Tech Gadget Hub";
@@ -68,8 +66,7 @@ const AllProducts = () => {
   }, [products, searchTerm]);
 
   return (
-    <section className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
-
+    <section className="py-16 sm:py-20 md:py-24 px-6 md:px-12 max-w-7xl mx-auto min-h-screen">
       {/* Header with Search */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -77,12 +74,12 @@ const AllProducts = () => {
         className="text-center mb-12 sm:mb-16"
       >
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4">
-          <span className="text-gray-900 dark:text-white">All</span>{" "}
+          <span className={isDark ? "text-white" : "text-gray-900"}>All</span>{" "}
           <span className="text-transparent bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text">
             Tech Products
           </span>
         </h2>
-        <p className="text-lg md:text-xl font-medium text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="text-lg md:text-xl font-medium text-gray-400 dark:text-gray-500 max-w-2xl mx-auto">
           Explore our complete collection from Japan, Germany, USA and beyond
         </p>
       </motion.div>
@@ -96,12 +93,8 @@ const AllProducts = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search by name, country, price..."
-            className="w-full pl-14 pr-6 py-4 rounded-2xl 
-              bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl 
-              border border-gray-300/50 dark:border-gray-600/50 
-              text-gray-900 dark:text-gray-100 
-              placeholder:text-gray-500 dark:placeholder:text-gray-400
-              shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-400/50 transition-all duration-300"
+            className="w-full pl-14 pr-6 py-4 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-white/50 dark:border-gray-700/50 
+              text-gray-900 dark:text-gray-100 shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300/50 dark:focus:ring-blue-500/50 transition-all"
           />
         </div>
       </div>
@@ -115,10 +108,10 @@ const AllProducts = () => {
         </div>
       ) : filteredProducts.length === 0 ? (
         <div className="text-center py-20">
-          <p className="text-2xl font-bold text-gray-700 dark:text-gray-300">
+          <p className="text-2xl font-bold text-gray-600 dark:text-gray-400">
             No products found for "{searchTerm}"
           </p>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-lg text-gray-500 dark:text-gray-500 mt-2">
             Try different keywords
           </p>
         </div>
@@ -187,7 +180,7 @@ const AllProducts = () => {
                 {/* Content Section */}
                 <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
                   <div className="space-y-1.5">
-                    <h3 className="text-base sm:text-lg font-bold line-clamp-2 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold line-clamp-2 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {p.productName || p.name}
                     </h3>
                     <div className="flex items-center justify-between">
@@ -198,13 +191,13 @@ const AllProducts = () => {
                         Save 15%
                       </span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-300">
+                    <div className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400">
                       {getFlag(p.originCountry)} {p.originCountry || "Global Origin"}
                     </div>
                   </div>
 
                   <div className="space-y-2 mt-4">
-                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300">
+                    <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
                       <span className="flex items-center gap-1">
                         <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                           <path d="M20 7h-3V4a1 1 0 00-1-1H8a1 1 0 00-1 1v3H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM9 5h6v2H9V5zm11 13H4V9h3v2h10V9h3v9z"/>

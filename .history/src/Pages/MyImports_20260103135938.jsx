@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate, Link,  } from "react-router-dom";
+import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,8 +16,8 @@ import {
 } from "react-icons/fi";
 
 const MyImports = () => {
-  //const { theme } = useOutletContext();
-const theme = localStorage.getItem("theme") || "light";
+  const { theme } = useOutletContext();
+
   const [imports, setImports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [importingId, setImportingId] = useState(null);
@@ -144,9 +144,9 @@ const theme = localStorage.getItem("theme") || "light";
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-20 px-4 sm:px-6 lg:px-12 transition-colors">
       {/* Header */}
-      <div className="max-w-7xl mx-auto text-center mb-10">
+      <div className="max-w-7xl mx-auto text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-black mb-4">
           <span className="text-gray-800 dark:text-white">My</span>{" "}
           <span className="text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
@@ -158,91 +158,106 @@ const theme = localStorage.getItem("theme") || "light";
         </p>
       </div>
 
-      {/* Grid – card size control করার জন্য */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
         <AnimatePresence>
           {imports.map((item, idx) => (
             <motion.div
               key={item._id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ delay: idx * 0.05, duration: 0.4 }}
-              className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl 
-                overflow-hidden transition-all duration-500 border border-gray-200 dark:border-gray-700 
-                flex flex-col h-full"
+              transition={{ delay: idx * 0.05 }}
+              whileHover={{
+                y: -12,
+                scale: 1.02,
+                rotateX: -5,
+                rotateY: 5,
+                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+              }}
+              className="group bg-white/70 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-3xl 
+                overflow-hidden transition-all duration-500 border border-white/50 dark:border-gray-700/50 
+                hover:border-purple-200/50 dark:hover:border-purple-400/30 flex flex-col"
             >
-              {/* Image – fixed height */}
-              <div className="relative overflow-hidden h-48">
+              {/* Image */}
+              <div className="relative overflow-hidden h-48 sm:h-52">
                 <img
                   src={item.image || "https://i.ibb.co/2kzH8v1/no-image.png"}
                   alt={item.name || item.productName}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
 
-              {/* Content – compact */}
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div className="space-y-3">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white line-clamp-2">
+              {/* Content */}
+              <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white line-clamp-2">
                     {item.name || item.productName}
                   </h3>
 
-                  {/* Meta Info – smaller text */}
-                  <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                    <div className="flex items-center gap-2">
-                      <FiDollarSign className="w-4 h-4 text-green-500" />
-                      <span className="font-medium">${item.price?.toLocaleString()}</span>
+                  {/* Rich Meta with Icons */}
+                  <div className="space-y-3 text-sm">
+                    <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+                      <FiDollarSign className="w-5 h-5 text-green-500" />
+                      <span className="font-semibold">${item.price?.toLocaleString()}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FiStar className="w-4 h-4 text-yellow-500" />
-                      <span>Rating: <span className="font-medium">{item.rating || "N/A"}</span></span>
+
+                    <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+                      <FiStar className="w-5 h-5 text-yellow-500" />
+                      <span>Rating: <span className="font-semibold">{item.rating || "N/A"}</span></span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FiGlobe className="w-4 h-4 text-blue-500" />
+
+                    <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+                      <FiGlobe className="w-5 h-5 text-blue-500" />
                       <span>{getFlag(item.originCountry)} {item.originCountry || "Global"}</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FiPackage className="w-4 h-4 text-purple-500" />
-                      <span>Imported: <span className="font-medium">{item.importedQuantity} pcs</span></span>
+
+                    <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+                      <FiPackage className="w-5 h-5 text-purple-500" />
+                      <span>Imported: <span className="font-semibold">{item.importedQuantity} pcs</span></span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FiBox className="w-4 h-4 text-indigo-500" />
-                      <span>Available: <span className="font-medium">{item.availableQuantity || 0} pcs</span></span>
+
+                    <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+                      <FiBox className="w-5 h-5 text-indigo-500" />
+                      <span>Available: <span className="font-semibold">{item.availableQuantity || 0} pcs</span></span>
                     </div>
                   </div>
                 </div>
 
-                {/* Action Buttons – compact 3-column */}
-                <div className="grid grid-cols-3 gap-2 mt-5">
+                {/* Action Buttons with Icons */}
+                <div className="grid grid-cols-3 gap-3 mt-6">
+                  {/* Remove */}
                   <button
                     onClick={() => handleRemove(item._id)}
-                    className="flex flex-col items-center gap-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl text-xs font-medium transition"
+                    className="flex flex-col items-center justify-center gap-1 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white py-3 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    <FiTrash2 className="w-4 h-4" />
-                    Remove
+                    <FiTrash2 className="w-5 h-5" />
+                    <span className="text-xs">Remove</span>
                   </button>
 
+                  {/* View Details */}
                   <button
                     onClick={() => navigate(`/product/${item._id}`)}
-                    className="flex flex-col items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl text-xs font-medium transition"
+                    className="flex flex-col items-center justify-center gap-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white py-3 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    <FiEye className="w-4 h-4" />
-                    View
+                    <FiEye className="w-5 h-5" />
+                    <span className="text-xs">View</span>
                   </button>
 
+                  {/* Re-Import */}
                   <button
                     onClick={() => handleReImport(item._id, item.availableQuantity || 0)}
                     disabled={importingId === item._id || (item.availableQuantity || 0) <= 0}
-                    className={`flex flex-col items-center gap-1 text-white py-2 rounded-xl text-xs font-medium transition ${
+                    className={`flex flex-col items-center justify-center gap-1 text-white py-3 rounded-2xl font-medium shadow-lg transition-all duration-300 ${
                       item.availableQuantity > 0
-                        ? "bg-green-500 hover:bg-green-600"
-                        : "bg-gray-400 cursor-not-allowed"
+                        ? "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 hover:shadow-xl"
+                        : "bg-gray-400 dark:bg-gray-600 cursor-not-allowed"
                     }`}
                   >
-                    <FiRefreshCw className={`w-4 h-4 ${importingId === item._id ? "animate-spin" : ""}`} />
-                    {importingId === item._id ? "..." : item.availableQuantity > 0 ? "Re-Import" : "Out"}
+                    <FiRefreshCw className={`w-5 h-5 ${importingId === item._id ? "animate-spin" : ""}`} />
+                    <span className="text-xs">
+                      {importingId === item._id ? "Importing..." : item.availableQuantity > 0 ? "Re-Import" : "Out of Stock"}
+                    </span>
                   </button>
                 </div>
               </div>

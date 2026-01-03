@@ -210,56 +210,41 @@ const Navbar = ({ theme, setTheme }) => {
           </div>
         </div>
 
-               {/* Mobile Menu */}
+        {/* Mobile Menu */}
         {menuOpen && (
           <div
             ref={menuRef}
-            className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 py-6 px-6 space-y-5"
+            className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 py-4 px-6 space-y-3"
           >
-            {/* Navigation Links */}
-            <div className="space-y-3">
-              {links}
-            </div>
-
-            {/* Bottom Section: Dark Mode + User Actions */}
-            <div className="pt-5 border-t border-gray-200 dark:border-gray-700 flex flex-col gap-5">
-              {/* Dark Mode Toggle */}
+            <div className="space-y-2">{links}</div>
+            <div className="pt-4 border-t border-gray-200 dark:border-gray-700 flex flex-col gap-4">
               <button
                 onClick={() => {
                   const newTheme = theme === "light" ? "dark" : "light";
                   setTheme(newTheme);
                   localStorage.setItem("theme", newTheme);
                 }}
-                className="flex items-center gap-4 p-4 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
+                className="flex items-center gap-3 p-3 rounded-lg bg-gray-100 dark:bg-gray-800"
               >
-                {theme === "light" ? (
-                  <Moon size={24} className="text-gray-700" />
-                ) : (
-                  <Sun size={26} className="text-yellow-400 drop-shadow-md" />
-                )}
-                <span className="font-semibold text-lg">
+                {theme === "light" ? <Moon size={22} /> : <Sun size={24} className="text-yellow-400" />}
+                <span className="font-medium">
                   {theme === "light" ? "Dark Mode" : "Light Mode"}
                 </span>
               </button>
 
-              {/* User Actions */}
               {user ? (
-                <div className="flex items-center justify-between gap-4">
-                  <Link
-                    to="/dashboard/profile"
-                    className="flex items-center gap-3 flex-1 justify-center py-3 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-                  >
+                <div className="flex items-center justify-between">
+                  <Link to="/dashboard/profile" className="flex items-center gap-3">
                     <img
                       src={user.photoURL || "https://i.ibb.co/2kzH8v1/user.png"}
                       alt="Profile"
                       className="w-10 h-10 rounded-full ring-2 ring-green-500"
                     />
-                    <span className="font-medium text-lg">My Profile</span>
+                    <span className="font-medium">Profile</span>
                   </Link>
-
                   <button
                     onClick={handleLogout}
-                    className="flex-1 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white py-3 rounded-xl font-semibold text-lg shadow-md transition-all"
+                    className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg font-medium"
                   >
                     Logout
                   </button>
@@ -267,9 +252,9 @@ const Navbar = ({ theme, setTheme }) => {
               ) : (
                 <Link
                   to="/login"
-                  className="block text-center bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white py-4 rounded-xl font-bold text-lg shadow-lg transition-all"
+                  className="block w-full text-center bg-gradient-to-r from-green-500 to-blue-600 text-white py-3 rounded-lg font-bold"
                 >
-                  Login / Register
+                  Login
                 </Link>
               )}
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // useOutletContext ডিলিট করলাম
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -102,8 +102,8 @@ const AddExport = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      {/* Full Width Container for Header */}
-      <div className="max-w-7xl mx-auto text-center mb-12">
+      {/* Header */}
+      <div className="max-w-5xl mx-auto text-center mb-12">
         <motion.h1
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -114,23 +114,23 @@ const AddExport = () => {
             Export Product
           </span>
         </motion.h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           List a new tech gadget for export with all required details
         </p>
       </div>
 
-      {/* Form Card – Centered with proper max-width */}
-      <div className="max-w-4xl mx-auto px-4"> {/* sidebar-এর পরে space-এর জন্য padding */}
+      {/* Form Card – max-w-3xl + mx-auto দিয়ে সেন্টার + প্রপার স্পেস */}
+      <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
           className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 dark:border-gray-700/50 p-8 sm:p-10 lg:p-12"
         >
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-7">
             {fields.map((field) => (
               <div key={field.name}>
-                <label className="flex items-center gap-3 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                <label className="flex items-center gap-3 text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   <field.icon className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                   {field.label}
                 </label>
@@ -144,10 +144,10 @@ const AddExport = () => {
                   max={field.max}
                   step={field.step}
                   required
-                  className="w-full px-6 py-4 bg-gray-50/70 dark:bg-gray-700/70 border border-gray-300 dark:border-gray-600 rounded-2xl 
+                  className="w-full px-5 py-4 bg-gray-50/70 dark:bg-gray-700/70 border border-gray-300 dark:border-gray-600 rounded-2xl 
                     text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400
                     focus:outline-none focus:ring-4 focus:ring-blue-400/50 focus:border-blue-500 
-                    transition-all duration-300 text-base shadow-inner"
+                    transition-all duration-300 text-base"
                 />
               </div>
             ))}
@@ -158,22 +158,22 @@ const AddExport = () => {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-4 bg-gradient-to-r from-blue-600 to-green-600 
-                hover:from-blue-700 hover:to-green-700 text-white py-6 rounded-2xl font-bold text-xl 
-                shadow-2xl hover:shadow-3xl transition-all duration-500 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-green-600 
+                hover:from-blue-700 hover:to-green-700 text-white py-5 rounded-2xl font-bold text-lg 
+                shadow-xl hover:shadow-2xl transition-all duration-500 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="w-7 h-7 border-4 border-white border-t-transparent rounded-full"
+                    className="w-6 h-6 border-4 border-white border-t-transparent rounded-full"
                   />
                   Adding Product...
                 </>
               ) : (
                 <>
-                  <FiPlusCircle className="w-8 h-8" />
+                  <FiPlusCircle className="w-7 h-7" />
                   Add Export Product
                 </>
               )}

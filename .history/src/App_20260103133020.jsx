@@ -28,7 +28,7 @@ const App = () => {
   }, [theme]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 transition-colors duration-500">
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-500"> {/* gray-50 better light bg */}
       <Navbar theme={theme} setTheme={setTheme} />
       <main className="flex-grow">
         <Outlet context={{ theme, setTheme }} />

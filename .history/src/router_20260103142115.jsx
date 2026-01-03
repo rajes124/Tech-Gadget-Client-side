@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import Home from "./Pages/Home.jsx";
 import AllProducts from "./Pages/AllProducts.jsx";
@@ -13,9 +13,9 @@ import Terms from "./Pages/Terms.jsx";
 import Privacy from "./Pages/Privacy.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 
-// Dashboard imports
+// ✅ নতুন ইমপোর্ট – Dashboard Layout & Home
 import DashboardLayout from "./layouts/DashboardLayout.jsx";
-import DashboardHome from "./Pages/dashboard/DashboardHome.jsx"; // তোমার path ঠিক আছে
+import DashboardHome from "./Pages/dashboard/DashboardHome.jsx"; // তুমি যেখানে রেখেছ সেখান থেকে import করো
 
 const router = createBrowserRouter([
   {
@@ -24,14 +24,21 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/all-products", element: <AllProducts /> },
-      { path: "/product/:id", element: <ProductDetails /> },
+
+      // Product Details (publicly accessible as per assignment)
+      {
+        path: "/product/:id",
+        element: <ProductDetails />, // publicly accessible করলাম (assignment-এ বলা আছে)
+      },
 
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
+
+      // Terms & Privacy (public)
       { path: "/terms", element: <Terms /> },
       { path: "/privacy", element: <Privacy /> },
 
-      // ==================== DASHBOARD SECTION ====================
+      // ✅ Dashboard – সব প্রাইভেট পেজ এখানে nested
       {
         path: "/dashboard",
         element: (
@@ -40,41 +47,31 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         children: [
-          { index: true, element: <DashboardHome /> }, // /dashboard → Dashboard Home
-          { path: "add-export", element: <AddExport /> },
+          { index: true, element: <DashboardHome /> }, // /dashboard → Overview
           { path: "exports", element: <MyExports /> },
           { path: "imports", element: <MyImports /> },
+          { path: "add-export", element: <AddExport /> },
           { path: "profile", element: <Profile /> },
         ],
       },
 
-      // ==================== OLD URL REDIRECTS (UX ভালো করার জন্য) ====================
-      // যদি কেউ পুরানো লিঙ্কে যায়, তাকে নতুন dashboard-এ নিয়ে যাবে
-      {
-        path: "/add-export",
-        element: <PrivateRoute><Navigate to="/dashboard/add-export" replace /></PrivateRoute>,
-      },
+      // ✅ পুরানো URL গুলো থেকে auto redirect (UX ভালো হবে)
+      // কেউ যদি পুরানো লিঙ্কে যায়, সে dashboard-এ চলে যাবে
       {
         path: "/my-exports",
-        element: <PrivateRoute><Navigate to="/dashboard/exports" replace /></PrivateRoute>,
+        element: <PrivateRoute redirectTo="/dashboard/exports" />,
       },
       {
         path: "/my-imports",
-        element: <PrivateRoute><Navigate to="/dashboard/imports" replace /></PrivateRoute>,
+        element: <PrivateRoute redirectTo="/dashboard/imports" />,
+      },
+      {
+        path: "/add-export",
+        element: <PrivateRoute redirectTo="/dashboard/add-export" />,
       },
       {
         path: "/profile",
-        element: <PrivateRoute><Navigate to="/dashboard/profile" replace /></PrivateRoute>,
-      },
-
-      // 404 fallback (optional কিন্তু ভালো)
-      {
-        path: "*",
-        element: (
-          <div className="flex items-center justify-center min-h-screen">
-            <h1 className="text-4xl font-bold text-gray-800 dark:text-white">404 - Page Not Found</h1>
-          </div>
-        ),
+        element: <PrivateRoute redirectTo="/dashboard/profile" />,
       },
     ],
   },
